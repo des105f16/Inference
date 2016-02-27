@@ -49,6 +49,8 @@
     <Compile Include="Principal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringJoinExtension.cs" />
+    <Compile Include="LowerBoundLabel.cs" />
+    <Compile Include="UpperBoundLabel.cs" />
     <Compile Include="VariableLabel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
