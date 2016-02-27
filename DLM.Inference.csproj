@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MeetLabel.cs" />
     <Compile Include="JoinLabel.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="Policy.cs" />

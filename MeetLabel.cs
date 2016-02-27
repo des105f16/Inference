@@ -1,0 +1,38 @@
+﻿namespace DLM.Inference
+{
+    /// <summary>
+    /// Represents the meet of two other labels.
+    /// </summary>
+    public class MeetLabel : Label
+    {
+        private Label l1, l2;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeetLabel"/> class.
+        /// </summary>
+        /// <param name="l1">The first label in the meet.</param>
+        /// <param name="l2">The second label in the meet.</param>
+        public MeetLabel(Label l1, Label l2)
+        {
+            this.l1 = l1;
+            this.l2 = l2;
+        }
+
+        /// <summary>
+        /// Gets the first label in the meet.
+        /// </summary>
+        public Label Label1 => l1;
+        /// <summary>
+        /// Gets the second label in the meet.
+        /// </summary>
+        public Label Label2 => l2;
+
+        /// <summary>
+        /// Returns a <see cref="string" /> that represents this <see cref="MeetLabel"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="string" /> that represents this <see cref="MeetLabel"/>.
+        /// </returns>
+        public override string ToString() => $"{l1} \u2293 {l2}";
+    }
+}
