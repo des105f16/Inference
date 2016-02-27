@@ -47,5 +47,65 @@
         {
             return new MeetLabel(l1, l2);
         }
+
+        #region Basic joins
+
+        private static Label Join(LowerBoundLabel l1, LowerBoundLabel l2)
+        {
+            return LowerBound;
+        }
+        private static Label Join(LowerBoundLabel l1, Label l2)
+        {
+            return l2;
+        }
+        private static Label Join(Label l1, LowerBoundLabel l2)
+        {
+            return l1;
+        }
+
+        private static Label Join(UpperBoundLabel l1, UpperBoundLabel l2)
+        {
+            return UpperBound;
+        }
+        private static Label Join(UpperBoundLabel l1, Label l2)
+        {
+            return UpperBound;
+        }
+        private static Label Join(Label l1, UpperBoundLabel l2)
+        {
+            return UpperBound;
+        }
+
+        #endregion
+
+        #region Basic meets
+
+        private static Label Meet(LowerBoundLabel l1, LowerBoundLabel l2)
+        {
+            return LowerBound;
+        }
+        private static Label Meet(LowerBoundLabel l1, Label l2)
+        {
+            return LowerBound;
+        }
+        private static Label Meet(Label l1, LowerBoundLabel l2)
+        {
+            return LowerBound;
+        }
+
+        private static Label Meet(UpperBoundLabel l1, UpperBoundLabel l2)
+        {
+            return UpperBound;
+        }
+        private static Label Meet(UpperBoundLabel l1, Label l2)
+        {
+            return l2;
+        }
+        private static Label Meet(Label l1, UpperBoundLabel l2)
+        {
+            return l1;
+        }
+
+        #endregion
     }
 }
