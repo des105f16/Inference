@@ -16,6 +16,12 @@
         {
         }
 
+        internal override bool LessRestrictiveThan(PolicyLabel label) => false;
+        internal override bool LessRestrictiveThan(ConstantLabel label) => false;
+
+        internal override bool LessRestrictiveThan(JoinLabel label) => false;
+        internal override bool LessRestrictiveThan(MeetLabel label) => false;
+
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="UpperBoundLabel" />
         /// </summary>

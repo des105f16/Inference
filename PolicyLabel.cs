@@ -38,6 +38,23 @@ namespace DLM.Inference
                 throw new ArgumentException($"A policy label must have policies. Otherwise see {nameof(LowerBoundLabel)}.", nameof(policies));
         }
 
+        internal override bool LessRestrictiveThan(PolicyLabel label)
+        {
+            foreach (var o in Owners())
+            {
+                if (!label.Owners().Contains(o))
+                    return false;
+
+                foreach (var r in label.Readers(o))
+                    if (!Readers(o).Contains(r))
+                        return false;
+            }
+
+            return true;
+        }
+        internal override bool LessRestrictiveThan(ConstantLabel label) => false;
+        internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
+
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="PolicyLabel" />
         /// </summary>

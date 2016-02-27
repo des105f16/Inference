@@ -18,6 +18,12 @@
             this.l2 = l2;
         }
 
+        internal override bool LessRestrictiveThan(PolicyLabel label) => l1 <= label && l2 <= label;
+        internal override bool LessRestrictiveThan(ConstantLabel label) => l1 <= label && l2 <= label;
+
+        internal override bool LessRestrictiveThan(JoinLabel label) => l1 <= label && l2 <= label;
+        internal override bool LessRestrictiveThan(MeetLabel label) => l1 <= label && l2 <= label;
+
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="JoinLabel" />
         /// </summary>
