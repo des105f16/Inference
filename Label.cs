@@ -67,30 +67,30 @@ namespace DLM.Inference
             return LessRestrictiveThan((dynamic)label);
         }
 
-        internal virtual bool LessRestrictiveThan(PolicyLabel label)
+        protected internal virtual bool LessRestrictiveThan(PolicyLabel label)
         {
             throw new NotImplementedException();
         }
-        internal virtual bool LessRestrictiveThan(ConstantLabel label)
+        protected internal virtual bool LessRestrictiveThan(ConstantLabel label)
         {
             throw new NotImplementedException();
         }
-        internal bool LessRestrictiveThan(VariableLabel label)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal virtual bool LessRestrictiveThan(JoinLabel label)
-        {
-            throw new NotImplementedException();
-        }
-        internal virtual bool LessRestrictiveThan(MeetLabel label)
+        protected internal bool LessRestrictiveThan(VariableLabel label)
         {
             throw new NotImplementedException();
         }
 
-        internal bool LessRestrictiveThan(LowerBoundLabel label) => this is LowerBoundLabel;
-        internal bool LessRestrictiveThan(UpperBoundLabel label) => true;
+        protected internal virtual bool LessRestrictiveThan(JoinLabel label)
+        {
+            throw new NotImplementedException();
+        }
+        protected internal virtual bool LessRestrictiveThan(MeetLabel label)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected internal bool LessRestrictiveThan(LowerBoundLabel label) => this is LowerBoundLabel;
+        protected internal bool LessRestrictiveThan(UpperBoundLabel label) => true;
 
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="Label"/>

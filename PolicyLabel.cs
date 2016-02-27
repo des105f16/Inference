@@ -38,7 +38,7 @@ namespace DLM.Inference
                 throw new ArgumentException($"A policy label must have policies. Otherwise see {nameof(LowerBoundLabel)}.", nameof(policies));
         }
 
-        internal override bool LessRestrictiveThan(PolicyLabel label)
+        protected internal override bool LessRestrictiveThan(PolicyLabel label)
         {
             foreach (var o in Owners())
             {
@@ -52,8 +52,8 @@ namespace DLM.Inference
 
             return true;
         }
-        internal override bool LessRestrictiveThan(ConstantLabel label) => false;
-        internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
+        protected internal override bool LessRestrictiveThan(ConstantLabel label) => false;
+        protected internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
 
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="PolicyLabel" />

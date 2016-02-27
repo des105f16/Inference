@@ -25,10 +25,10 @@ namespace DLM.Inference
             this.name = name;
         }
 
-        internal override bool LessRestrictiveThan(PolicyLabel label) => false;
-        internal override bool LessRestrictiveThan(ConstantLabel label) => this == label;
+        protected internal override bool LessRestrictiveThan(PolicyLabel label) => false;
+        protected internal override bool LessRestrictiveThan(ConstantLabel label) => this == label;
 
-        internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
+        protected internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
 
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="ConstantLabel" />
