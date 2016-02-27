@@ -15,6 +15,11 @@
         public static Label UpperBound => UpperBoundLabel.Singleton;
 
         /// <summary>
+        /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="Label"/>
+        /// </summary>
+        public abstract Label NoVariables { get; }
+
+        /// <summary>
         /// Generates the join of the two labels.
         /// </summary>
         /// <param name="l1">The first label in the join.</param>

@@ -19,6 +19,11 @@
         }
 
         /// <summary>
+        /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="MeetLabel" />
+        /// </summary>
+        public override Label NoVariables => l1.NoVariables - l2.NoVariables;
+
+        /// <summary>
         /// Gets the first label in the meet.
         /// </summary>
         public Label Label1 => l1;

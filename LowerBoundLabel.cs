@@ -17,6 +17,11 @@
         }
 
         /// <summary>
+        /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="LowerBoundLabel" />
+        /// </summary>
+        public override Label NoVariables => this;
+
+        /// <summary>
         /// Returns a <see cref="string"/> that represents this <see cref="LowerBoundLabel"/>.
         /// </summary>
         /// <returns>

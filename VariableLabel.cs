@@ -28,6 +28,11 @@ namespace DLM.Inference
         }
 
         /// <summary>
+        /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="VariableLabel" />
+        /// </summary>
+        public override Label NoVariables => currentUpperBound;
+
+        /// <summary>
         /// Gets the name associated with the label.
         /// </summary>
         public string Name => name;

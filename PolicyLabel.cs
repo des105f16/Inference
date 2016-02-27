@@ -39,6 +39,11 @@ namespace DLM.Inference
         }
 
         /// <summary>
+        /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="PolicyLabel" />
+        /// </summary>
+        public override Label NoVariables => this;
+
+        /// <summary>
         /// Gets the number of policies in the label.
         /// </summary>
         public int Count => policies.Length;
