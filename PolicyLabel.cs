@@ -53,6 +53,22 @@ namespace DLM.Inference
         /// <param name="index">The index of the policy, see <see cref="Count"/>.</param>
         public Policy this[int index] => policies[index];
 
+        public IEnumerable<Principal> Owners() => policies.Select(x => x.Owner);
+        public IEnumerable<Principal> Readers(Principal owner)
+        {
+            if (!policies.Any(x => x.Owner == owner))
+                throw new ArgumentException();
+            else
+            {
+                var p = policies.First(x => x.Owner == owner);
+
+                yield return p.Owner;
+
+                for (int i = 0; i < p.ReaderCount; i++)
+                    yield return p[i];
+            }
+        }
+
         /// <summary>
         /// Returns a <see cref="string" /> that represents this <see cref="PolicyLabel"/>.
         /// </summary>
