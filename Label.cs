@@ -1,4 +1,6 @@
-﻿namespace DLM.Inference
+﻿using System;
+
+namespace DLM.Inference
 {
     /// <summary>
     /// Defines the top-level type of the label composite structure.
@@ -13,6 +15,60 @@
         /// Gets the upper bound label.
         /// </summary>
         public static Label UpperBound => UpperBoundLabel.Singleton;
+
+        /// <summary>
+        /// Determines if one label is less (or equally) restrictive than another one.
+        /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
+        /// </summary>
+        /// <param name="l1">The least restrictive label.</param>
+        /// <param name="l2">The most restrictive label.</param>
+        /// <returns>
+        /// <c>true</c>, if <paramref name="l1"/> is less (or equally) restrictive than <paramref name="l2"/>.
+        /// </returns>
+        public static bool operator <=(Label l1, Label l2)
+        {
+            return l1.NoVariables.lessRestrictiveThan(l2.NoVariables);
+        }
+        /// <summary>
+        /// Determines if one label is more (or equally) restrictive than another one.
+        /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
+        /// </summary>
+        /// <param name="l1">The most restrictive label.</param>
+        /// <param name="l2">The least restrictive label.</param>
+        /// <returns>
+        /// <c>true</c>, if <paramref name="l1"/> is more (or equally) restrictive than <paramref name="l2"/>.
+        /// </returns>
+        public static bool operator >=(Label l1, Label l2) => l2 <= l1;
+
+        private bool lessRestrictiveThan(Label label)
+        {
+            return LessRestrictiveThan((dynamic)label);
+        }
+
+        internal virtual bool LessRestrictiveThan(PolicyLabel label)
+        {
+            throw new NotImplementedException();
+        }
+        internal virtual bool LessRestrictiveThan(ConstantLabel label)
+        {
+            throw new NotImplementedException();
+        }
+        internal bool LessRestrictiveThan(VariableLabel label)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal virtual bool LessRestrictiveThan(JoinLabel label)
+        {
+            throw new NotImplementedException();
+        }
+        internal virtual bool LessRestrictiveThan(MeetLabel label)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool LessRestrictiveThan(LowerBoundLabel label) => this is LowerBoundLabel;
+        internal bool LessRestrictiveThan(UpperBoundLabel label) => true;
 
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="Label"/>
