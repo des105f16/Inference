@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DLM.Inference
@@ -11,30 +12,30 @@ namespace DLM.Inference
         private Policy[] policies;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PolicyLabel"/> class with no policies.
-        /// This corresponds to the least restrictive label.
+        /// Initializes a new instance of the <see cref="PolicyLabel"/> class.
         /// </summary>
-        public PolicyLabel()
+        /// <param name="policies">The policies that should define the label.</param>
+        public PolicyLabel(Policy policy, params Policy[] policies)
         {
-            policies = new Policy[0];
+            this.policies = new Policy[1 + policies?.Length ?? 0];
+
+            this.policies[0] = policy;
+            if (policies != null)
+                policies.CopyTo(this.policies, 1);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PolicyLabel"/> class.
         /// </summary>
-        /// <param name="policies">The policies that should define the label.
-        /// If <paramref name="policies"/> contains no values, the label will correspond to the least restrictive label.</param>
-        public PolicyLabel(params Policy[] policies)
-        {
-            this.policies = policies ?? new Policy[0];
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PolicyLabel"/> class.
-        /// </summary>
-        /// <param name="policies">The policies that should define the label.
-        /// If <paramref name="policies"/> contains no values, the label will correspond to the least restrictive label.</param>
+        /// <param name="policies">The policies that should define the label.</param>
         public PolicyLabel(IEnumerable<Policy> policies)
-            : this(policies.ToArray())
         {
+            if (policies == null)
+                throw new ArgumentNullException(nameof(policies));
+
+            this.policies = policies.ToArray();
+
+            if (this.policies.Length == 0)
+                throw new ArgumentException($"A policy label must have policies. Otherwise see {nameof(LowerBoundLabel)}.", nameof(policies));
         }
 
         /// <summary>
