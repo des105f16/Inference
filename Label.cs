@@ -6,6 +6,15 @@
     public abstract class Label
     {
         /// <summary>
+        /// Gets the lower bound label.
+        /// </summary>
+        public static Label LowerBound => LowerBoundLabel.Singleton;
+        /// <summary>
+        /// Gets the upper bound label.
+        /// </summary>
+        public static Label UpperBound => UpperBoundLabel.Singleton;
+
+        /// <summary>
         /// Generates the join of the two labels.
         /// </summary>
         /// <param name="l1">The first label in the join.</param>
