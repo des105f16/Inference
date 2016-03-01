@@ -79,8 +79,6 @@ namespace DLM.Inference
             {
                 var p = policies.First(x => x.Owner == owner);
 
-                yield return p.Owner;
-
                 for (int i = 0; i < p.ReaderCount; i++)
                     yield return p[i];
             }
