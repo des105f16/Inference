@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayEquatable.cs" />
     <Compile Include="ConstantLabel.cs" />
     <Compile Include="Constraint.cs" />
     <Compile Include="ConstraintResolver.cs" />
