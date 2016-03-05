@@ -5,7 +5,7 @@ namespace DLM.Inference
     /// <summary>
     /// Represents a label that can be modified when solving inference.
     /// </summary>
-    public class VariableLabel : Label
+    public class VariableLabel : Label, IEquatable<VariableLabel>
     {
         private string name;
         private Label currentUpperBound;
@@ -26,6 +26,9 @@ namespace DLM.Inference
             this.name = name;
             this.currentUpperBound = UpperBoundLabel.Singleton;
         }
+
+        public override bool Equals(Label label) => label is VariableLabel ? Equals(label as VariableLabel) : false;
+        public bool Equals(VariableLabel label) => name.Equals(label.name);
 
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="VariableLabel" />

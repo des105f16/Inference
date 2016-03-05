@@ -1,9 +1,12 @@
-﻿namespace DLM.Inference
+﻿using System;
+using System.Collections.Generic;
+
+namespace DLM.Inference
 {
     /// <summary>
     /// Represents the meet of two other labels.
     /// </summary>
-    public class MeetLabel : Label
+    public class MeetLabel : Label, IEquatable<MeetLabel>
     {
         private Label l1, l2;
 
@@ -16,6 +19,24 @@
         {
             this.l1 = l1;
             this.l2 = l2;
+        }
+
+        public override bool Equals(Label label) => label is MeetLabel ? Equals(label as MeetLabel) : false;
+        public bool Equals(MeetLabel label) => ArrayEquatable.Equals(flatten(), label.flatten());
+
+        private IEnumerable<Label> flatten()
+        {
+            if (l1 is MeetLabel)
+                foreach (var l in (l1 as MeetLabel).flatten())
+                    yield return l;
+            else
+                yield return l1;
+
+            if (l2 is MeetLabel)
+                foreach (var l in (l2 as MeetLabel).flatten())
+                    yield return l;
+            else
+                yield return l2;
         }
 
         /// <summary>

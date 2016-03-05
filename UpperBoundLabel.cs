@@ -16,6 +16,8 @@
         {
         }
 
+        public override bool Equals(Label label) => label is UpperBoundLabel;
+
         protected internal override bool LessRestrictiveThan(PolicyLabel label) => false;
         protected internal override bool LessRestrictiveThan(ConstantLabel label) => false;
 

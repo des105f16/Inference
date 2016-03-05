@@ -1,4 +1,6 @@
-﻿namespace DLM.Inference
+﻿using System.Collections.Generic;
+
+namespace DLM.Inference
 {
     /// <summary>
     /// Represents the join of two other labels.
@@ -23,6 +25,24 @@
 
         protected internal override bool LessRestrictiveThan(JoinLabel label) => l1 <= label && l2 <= label;
         protected internal override bool LessRestrictiveThan(MeetLabel label) => l1 <= label && l2 <= label;
+
+        public override bool Equals(Label label) => label is JoinLabel ? Equals(label as JoinLabel) : false;
+        public bool Equals(JoinLabel label) => ArrayEquatable.Equals(flatten(), label.flatten());
+
+        private IEnumerable<Label> flatten()
+        {
+            if (l1 is JoinLabel)
+                foreach (var l in (l1 as JoinLabel).flatten())
+                    yield return l;
+            else
+                yield return l1;
+
+            if (l2 is JoinLabel)
+                foreach (var l in (l2 as JoinLabel).flatten())
+                    yield return l;
+            else
+                yield return l2;
+        }
 
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="JoinLabel" />

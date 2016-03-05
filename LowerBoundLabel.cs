@@ -16,6 +16,8 @@
         {
         }
 
+        public override bool Equals(Label label) => label is LowerBoundLabel;
+
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="LowerBoundLabel" />
         /// </summary>

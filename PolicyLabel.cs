@@ -7,7 +7,7 @@ namespace DLM.Inference
     /// <summary>
     /// Represents a label as the composition of a set of policies.
     /// </summary>
-    public class PolicyLabel : Label
+    public class PolicyLabel : Label, IEquatable<PolicyLabel>
     {
         private Policy[] policies;
 
@@ -37,6 +37,9 @@ namespace DLM.Inference
             if (this.policies.Length == 0)
                 throw new ArgumentException($"A policy label must have policies. Otherwise see {nameof(LowerBoundLabel)}.", nameof(policies));
         }
+
+        public override bool Equals(Label label) => label is PolicyLabel ? Equals(label as PolicyLabel) : false;
+        public bool Equals(PolicyLabel label) => ArrayEquatable.Equals(policies, label.policies);
 
         protected internal override bool LessRestrictiveThan(PolicyLabel label)
         {

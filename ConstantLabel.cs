@@ -5,7 +5,7 @@ namespace DLM.Inference
     /// <summary>
     /// Represents a label that is unknown, yet constant.
     /// </summary>
-    public class ConstantLabel : Label
+    public class ConstantLabel : Label, IEquatable<ConstantLabel>
     {
         private string name;
 
@@ -29,6 +29,9 @@ namespace DLM.Inference
         protected internal override bool LessRestrictiveThan(ConstantLabel label) => this == label;
 
         protected internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
+
+        public override bool Equals(Label label) => label is ConstantLabel ? Equals(label as ConstantLabel) : false;
+        public bool Equals(ConstantLabel label) => name.Equals(label.name);
 
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="ConstantLabel" />
