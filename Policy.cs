@@ -7,7 +7,7 @@ namespace DLM.Inference
     /// <summary>
     /// Represents a label policy composed by principals.
     /// </summary>
-    public struct Policy
+    public class Policy
     {
         private Principal owner;
         private Principal[] readers;
