@@ -5,7 +5,7 @@ namespace DLM.Inference
     /// <summary>
     /// Defines the top-level type of the label composite structure.
     /// </summary>
-    public abstract class Label
+    public abstract class Label : IEquatable<Label>
     {
         /// <summary>
         /// Gets the lower bound label.
@@ -91,6 +91,56 @@ namespace DLM.Inference
 
         protected internal bool LessRestrictiveThan(LowerBoundLabel label) => this is LowerBoundLabel;
         protected internal bool LessRestrictiveThan(UpperBoundLabel label) => true;
+
+        /// <summary>
+        /// Determines if one label is equal to another.
+        /// </summary>
+        /// <param name="l1">One of the labels to compare.</param>
+        /// <param name="l2">The other label to compare.</param>
+        /// <returns>
+        /// <c>true</c>, if the labels are equally restrictive; otherwise <c>false</c>.
+        /// </returns>
+        public static bool operator ==(Label l1, Label l2)
+        {
+            if (ReferenceEquals(l1, null) && ReferenceEquals(l2, null))
+                return true;
+            else if (ReferenceEquals(l1, null) || ReferenceEquals(l2, null))
+                return false;
+            else
+                return l1.Equals(l2);
+        }
+        /// <summary>
+        /// Determines if one label is not equal to another.
+        /// </summary>
+        /// <param name="l1">One of the labels to compare.</param>
+        /// <param name="l2">The other label to compare.</param>
+        /// <returns>
+        /// <c>true</c>, if the labels are not equally restrictive; otherwise <c>false</c>.
+        /// </returns>
+        public static bool operator !=(Label l1, Label l2) => !(l1 == l2);
+
+        /// <summary>
+        /// Determines whether the specified <see cref="object" />, is a <see cref="Label"/> and as restrictive as this <see cref="Label"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="object" /> to compare with this <see cref="Label"/>.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="object" /> is a <see cref="Label"/> and as restrictive as this <see cref="Label"/>; otherwise, <c>false</c>.
+        /// </returns>
+        public sealed override bool Equals(object obj)
+        {
+            if (obj.GetType() == this.GetType())
+                return Equals(obj as Label);
+            else
+                return false;
+        }
+        /// <summary>
+        /// Determines if this <see cref="Label"/> is exactly as restrictive as another <see cref="Label"/>.
+        /// </summary>
+        /// <param name="label">The label to compare to.</param>
+        /// <returns>
+        /// <c>true</c> if the specified <see cref="Label"/> is exactly as restrictive as this <see cref="Label"/>.
+        /// </returns>
+        public abstract bool Equals(Label label);
 
         /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="Label"/>
