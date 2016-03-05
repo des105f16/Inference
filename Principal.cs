@@ -5,7 +5,7 @@ namespace DLM.Inference
     /// <summary>
     /// Represents a principal in a security system model.
     /// </summary>
-    public class Principal
+    public class Principal : IEquatable<Principal>
     {
         private string name;
 
@@ -24,6 +24,11 @@ namespace DLM.Inference
 
             this.name = name;
         }
+
+        public override int GetHashCode() => name.GetHashCode();
+
+        public override bool Equals(object obj) => obj is Principal ? Equals(obj as Principal) : false;
+        public bool Equals(Principal other) => ReferenceEquals(this, other);
 
         /// <summary>
         /// Gets the name of the principal.
