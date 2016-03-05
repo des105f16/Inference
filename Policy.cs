@@ -7,7 +7,7 @@ namespace DLM.Inference
     /// <summary>
     /// Represents a label policy composed by principals.
     /// </summary>
-    public class Policy
+    public class Policy : IEquatable<Policy>
     {
         private Principal owner;
         private Principal[] readers;
@@ -34,6 +34,10 @@ namespace DLM.Inference
             : this(owner, readers.ToArray())
         {
         }
+
+        public override int GetHashCode() => owner.GetHashCode();
+        public override bool Equals(object obj) => obj is Policy ? Equals(obj as Policy) : false;
+        public bool Equals(Policy other) => owner.Equals(other.owner) && ArrayEquatable.Equals(readers, other.readers);
 
         /// <summary>
         /// Gets the principal owner associated with this policy.
