@@ -44,6 +44,7 @@
     <Compile Include="ConstantLabel.cs" />
     <Compile Include="Constraint.cs" />
     <Compile Include="ConstraintResolver.cs" />
+    <Compile Include="LabelStack.cs" />
     <Compile Include="MeetLabel.cs" />
     <Compile Include="JoinLabel.cs" />
     <Compile Include="Label.cs" />
