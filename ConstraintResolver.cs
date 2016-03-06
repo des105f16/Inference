@@ -34,6 +34,14 @@ namespace DLM.Inference
                     )
                     constraints.RemoveAt(i--);
         }
+        private static void removeDuplicates(List<Constraint> constraints)
+        {
+            for (int i = 0; i < constraints.Count - 1; i++)
+                for (int j = i + 1; j < constraints.Count; j++)
+                    if (constraints[i].Left.Equals(constraints[j].Left) &&
+                        constraints[i].Right.Equals(constraints[j].Right))
+                        constraints.RemoveAt(j--);
+        }
 
         private static bool resolve(List<Constraint> constraints)
         {
@@ -72,6 +80,7 @@ namespace DLM.Inference
 
             removeLeftJoins(list);
             clearTrivials(list);
+            removeDuplicates(list);
 
             if (resolve(list))
                 return getVariables(list);
