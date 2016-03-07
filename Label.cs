@@ -220,6 +220,8 @@ namespace DLM.Inference
             return UpperBound;
         }
 
+        private static Label Join(PolicyLabel l1, PolicyLabel l2) => l1 + l2;
+
         #endregion
 
         #region Basic meets
@@ -258,6 +260,8 @@ namespace DLM.Inference
         {
             return LowerBound;
         }
+
+        private static Label Meet(PolicyLabel l1, PolicyLabel l2) => l1 - l2;
 
         #endregion
     }

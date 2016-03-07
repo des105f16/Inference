@@ -59,6 +59,69 @@ namespace DLM.Inference
         protected internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
 
         /// <summary>
+        /// Generates the join of the two labels.
+        /// </summary>
+        /// <param name="l1">The first label in the join.</param>
+        /// <param name="l2">The second label in the join.</param>
+        /// <returns>
+        /// A new label that is the join of <paramref name="l1"/> and <paramref name="l2"/>.
+        /// </returns>
+        public static PolicyLabel operator +(PolicyLabel l1, PolicyLabel l2)
+        {
+            List<Policy> policies = new List<Policy>();
+
+            var owners = l1.Owners().Union(l2.Owners()).ToArray();
+
+            foreach (var o in owners)
+            {
+                var p1 = l1.policies.Where(x => x.Owner == o).ToArray();
+                var p2 = l2.policies.Where(x => x.Owner == o).ToArray();
+
+                if (p1.Length == 0 && p2.Length == 0)
+                    policies.Add(new Policy(o));
+                else if (p1.Length == 0)
+                    policies.Add(new Policy(o, getReaders(p2)));
+                else if (p2.Length == 0)
+                    policies.Add(new Policy(o, getReaders(p1)));
+                else
+                    policies.Add(new Policy(o, getReaders(p1).Intersect(getReaders(p2))));
+            }
+
+            return new PolicyLabel(policies);
+        }
+        /// <summary>
+        /// Generates the meet of the two labels.
+        /// </summary>
+        /// <param name="l1">The first label in the meet operation.</param>
+        /// <param name="l2">The second label in the meet operation.</param>
+        /// <returns>
+        /// A new label that is the meet of <paramref name="l1"/> and <paramref name="l2"/>.
+        /// </returns>
+        public static PolicyLabel operator -(PolicyLabel l1, PolicyLabel l2)
+        {
+            List<Policy> policies = new List<Policy>();
+
+            var owners = l1.Owners().Intersect(l2.Owners()).ToArray();
+
+            foreach (var o in owners)
+            {
+                var p1 = l1.policies.Where(x => x.Owner == o).ToArray();
+                var p2 = l2.policies.Where(x => x.Owner == o).ToArray();
+
+                policies.Add(new Policy(o, getReaders(p1).Union(getReaders(p2))));
+            }
+
+            return new PolicyLabel(policies);
+        }
+
+        private static IEnumerable<Principal> getReaders(IEnumerable<Policy> policies)
+        {
+            foreach (var p in policies)
+                for (int i = 0; i < p.ReaderCount; i++)
+                    yield return p[i];
+        }
+
+        /// <summary>
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="PolicyLabel" />
         /// </summary>
         public override Label NoVariables => this;
