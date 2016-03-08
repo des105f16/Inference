@@ -73,8 +73,9 @@ namespace DLM.Inference
         /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
         /// </summary>
         /// <param name="constraints">The constraint-system that should be resolved.</param>
-        /// <returns>The collection of variables in the system, or <c>null</c> is labels could not be inferred.</returns>
-        public static VariableLabel[] Resolve(IEnumerable<Constraint> constraints)
+        /// <returns>A <see cref="InferenceResult"/> representing the result of the method.
+        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.</returns>
+        public static InferenceResult Resolve(IEnumerable<Constraint> constraints)
         {
             List<Constraint> list = new List<Constraint>(constraints);
 
@@ -82,17 +83,15 @@ namespace DLM.Inference
             clearTrivials(list);
             removeDuplicates(list);
 
-            if (resolve(list))
-                return getVariables(list);
-            else
-                return null;
+            return new InferenceResult(resolve(list), getVariables(list), list);
         }
         /// <summary>
         /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
         /// </summary>
         /// <param name="constraints">The constraint-system that should be resolved.</param>
-        /// <returns>The collection of variables in the system, or <c>null</c> is labels could not be inferred.</returns>
-        public static VariableLabel[] Resolve(params Constraint[] constraints)
+        /// <returns>A <see cref="InferenceResult"/> representing the result of the method.
+        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.</returns>
+        public static InferenceResult Resolve(params Constraint[] constraints)
         {
             return Resolve(constraints as IEnumerable<Constraint>);
         }
