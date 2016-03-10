@@ -66,7 +66,7 @@ namespace DLM.Inference
         /// <returns>
         /// A new label that is the join of <paramref name="l1"/> and <paramref name="l2"/>.
         /// </returns>
-        public static PolicyLabel operator +(PolicyLabel l1, PolicyLabel l2)
+        public static Label operator +(PolicyLabel l1, PolicyLabel l2)
         {
             List<Policy> policies = new List<Policy>();
 
@@ -97,7 +97,7 @@ namespace DLM.Inference
         /// <returns>
         /// A new label that is the meet of <paramref name="l1"/> and <paramref name="l2"/>.
         /// </returns>
-        public static PolicyLabel operator -(PolicyLabel l1, PolicyLabel l2)
+        public static Label operator -(PolicyLabel l1, PolicyLabel l2)
         {
             List<Policy> policies = new List<Policy>();
 
@@ -111,7 +111,10 @@ namespace DLM.Inference
                 policies.Add(new Policy(o, getReaders(p1).Union(getReaders(p2))));
             }
 
-            return new PolicyLabel(policies);
+            if (policies.Count == 0)
+                return LowerBound;
+            else
+                return new PolicyLabel(policies);
         }
 
         private static IEnumerable<Principal> getReaders(IEnumerable<Policy> policies)
