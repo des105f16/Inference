@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DLM.Inference
 {
@@ -8,6 +9,7 @@ namespace DLM.Inference
     public class Principal : IEquatable<Principal>
     {
         private string name;
+        private List<Principal> subordinates;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Principal"/> class.
@@ -23,6 +25,7 @@ namespace DLM.Inference
                 throw new ArgumentException("The name of a principal cannot be the empty string.", nameof(name));
 
             this.name = name;
+            this.subordinates = new List<Principal>();
         }
 
         public override int GetHashCode() => name.GetHashCode();
@@ -34,6 +37,11 @@ namespace DLM.Inference
         /// Gets the name of the principal.
         /// </summary>
         public string Name => name;
+
+        /// <summary>
+        /// Gets the list of principals that the principal can act for.
+        /// </summary>
+        public List<Principal> Subordinates => subordinates;
 
         /// <summary>
         /// Returns a <see cref="string"/> that represents this <see cref="Principal"/>.
