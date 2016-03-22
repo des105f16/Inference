@@ -43,6 +43,11 @@ namespace DLM.Inference
         /// </summary>
         public Principal[] Subordinates => subordinates.ToArray();
 
+        public void AddSubordinate(Principal principal)
+        {
+            subordinates.Add(principal);
+        }
+
         /// <summary>
         /// Recursively gets the list of actual principals that the principal can act for.
         /// </summary>
