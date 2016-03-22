@@ -9,7 +9,7 @@ namespace DLM.Inference
     public class Principal : IEquatable<Principal>
     {
         private string name;
-        private List<Principal> subordinates;
+        private Dictionary<string, Principal> subordinates;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Principal"/> class.
@@ -25,7 +25,7 @@ namespace DLM.Inference
                 throw new ArgumentException("The name of a principal cannot be the empty string.", nameof(name));
 
             this.name = name;
-            this.subordinates = new List<Principal>();
+            this.subordinates = new Dictionary<string, Principal>();
         }
 
         public override int GetHashCode() => name.GetHashCode();
@@ -41,11 +41,23 @@ namespace DLM.Inference
         /// <summary>
         /// Gets the list of principals that the principal can act for.
         /// </summary>
-        public Principal[] Subordinates => subordinates.ToArray();
-
-        public void AddSubordinate(Principal principal)
+        public Principal[] Subordinates
         {
-            subordinates.Add(principal);
+            get
+            {
+                var resultArray = new Principal[subordinates.Count];
+                subordinates.Values.CopyTo(resultArray, 0);
+                return resultArray;
+            }
+        }
+
+        public bool AddSubordinate(Principal principal)
+        {
+            if (subordinates.ContainsKey(principal.Name))
+                return false;
+
+            subordinates.Add(principal.Name, principal);
+            return true;
         }
 
         /// <summary>
