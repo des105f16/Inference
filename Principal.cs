@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DLM.Inference
 {
@@ -41,25 +42,14 @@ namespace DLM.Inference
         /// <summary>
         /// Gets the list of principals that the principal can act for.
         /// </summary>
-        public Principal[] Subordinates
-        {
-            get
-            {
-                var resultArray = new Principal[subordinates.Count];
-                subordinates.CopyTo(resultArray, 0);
-                return resultArray;
-            }
-        }
+        public Principal[] Subordinates => subordinates.ToArray();
 
         /// <summary>
         /// Adds the <see cref="Principal"/> to the list of subordinates.
         /// </summary>
         /// <param name="principal">The subordinate to be added.</param>
         /// <returns>True if the subordinate was added, false if it is already present.</returns>
-        public bool AddSubordinate(Principal principal)
-        {
-            return subordinates.Add(principal);
-        }
+        public bool AddSubordinate(Principal principal) => subordinates.Add(principal);
 
         /// <summary>
         /// Recursively gets the list of actual principals that the principal can act for.
@@ -70,10 +60,7 @@ namespace DLM.Inference
             {
                 var resultHash = new HashSet<Principal>();
                 actualSubordinatesRec(this, resultHash);
-
-                Principal[] resultArray = new Principal[resultHash.Count];
-                resultHash.CopyTo(resultArray);
-                return resultArray;
+                return resultHash.ToArray();
             }
         }
 
