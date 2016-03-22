@@ -196,7 +196,6 @@ namespace DLM.Inference
         private static bool NoMoreRestrictive(JoinLabel l1, JoinLabel l2) => l1.Label1 <= l2 && l1.Label2 <= l2;
 
         private static bool NoMoreRestrictive(ConstantLabel l1, ConstantLabel l2) => l1.Equals(l2);
-
         private static bool NoMoreRestrictive(PolicyLabel l1, PolicyLabel l2)
         {
             foreach (var o in l1.Owners())
@@ -211,5 +210,8 @@ namespace DLM.Inference
 
             return true;
         }
+
+        private static bool NoMoreRestrictive(ConstantLabel l1, PolicyLabel l2) => false;
+        private static bool NoMoreRestrictive(PolicyLabel l1, ConstantLabel l2) => false;
     }
 }
