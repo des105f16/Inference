@@ -184,6 +184,11 @@ namespace DLM.Inference
         private static bool NoMoreRestrictive(UpperBoundLabel l1, LowerBoundLabel l2) => false;
         private static bool NoMoreRestrictive(LowerBoundLabel l1, UpperBoundLabel l2) => true;
 
+        private static bool NoMoreRestrictive(LowerBoundLabel l1, JoinLabel l2) => NoMoreRestrictive((Label)l1, l2);
+        private static bool NoMoreRestrictive(JoinLabel l1, LowerBoundLabel l2) => NoMoreRestrictive(l1, (Label)l2);
+        private static bool NoMoreRestrictive(UpperBoundLabel l1, JoinLabel l2) => NoMoreRestrictive((Label)l1, l2);
+        private static bool NoMoreRestrictive(JoinLabel l1, UpperBoundLabel l2) => NoMoreRestrictive(l1, (Label)l2);
+
         #endregion
 
         private static bool NoMoreRestrictive(JoinLabel l1, Label l2) => l1.Label1 <= l2 && l1.Label2 <= l2;
