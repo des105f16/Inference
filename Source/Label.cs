@@ -40,38 +40,6 @@ namespace DLM.Inference
         /// </returns>
         public static bool operator >=(Label l1, Label l2) => l2 <= l1;
 
-        private bool lessRestrictiveThan(Label label)
-        {
-            return LessRestrictiveThan((dynamic)label);
-        }
-
-        protected internal virtual bool LessRestrictiveThan(PolicyLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-        protected internal virtual bool LessRestrictiveThan(ConstantLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-        protected internal bool LessRestrictiveThan(VariableLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-
-        protected internal virtual bool LessRestrictiveThan(JoinLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-        protected internal virtual bool LessRestrictiveThan(MeetLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-
-        private string restrictiveNotImplemented(Label label) => $"There is now implementation for {GetType().Name} \u2291 {label.GetType().Name}.";
-
-        protected internal bool LessRestrictiveThan(LowerBoundLabel label) => this is LowerBoundLabel;
-        protected internal bool LessRestrictiveThan(UpperBoundLabel label) => true;
-
         /// <summary>
         /// Determines if one label is equal to another.
         /// </summary>
