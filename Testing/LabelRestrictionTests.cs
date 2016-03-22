@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DLM.Inference.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class LabelRestrictionTests
     {
         private Principal a;
@@ -31,7 +31,7 @@ namespace DLM.Inference.Tests
             Assert.IsFalse(l1 <= l2, $"{l1} \u2291 {l2} should be false.");
         }
 
-        [TestInitialize()]
+        [SetUp]
         public void Initialize()
         {
             a = new Principal(nameof(a));
@@ -47,7 +47,7 @@ namespace DLM.Inference.Tests
             v2 = new VariableLabel(nameof(v2));
         }
 
-        [TestMethod()]
+        [Test]
         public void UpperBound()
         {
             isFalse(Label.UpperBound, p1);
@@ -65,7 +65,7 @@ namespace DLM.Inference.Tests
             isTrue(Label.UpperBound, Label.UpperBound);
         }
 
-        [TestMethod()]
+        [Test]
         public void LowerBound()
         {
             isTrue(Label.LowerBound, p1);
@@ -83,7 +83,7 @@ namespace DLM.Inference.Tests
             isTrue(Label.LowerBound, Label.LowerBound);
         }
 
-        [TestMethod()]
+        [Test]
         public void Constant()
         {
             isFalse(c1, c2);

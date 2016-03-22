@@ -1,23 +1,23 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DLM.Inference;
+﻿using DLM.Inference;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace DLM.Inference.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class LabelTests
     {
-        [TestMethod()]
+        [Test]
         public void EqualsTest()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void EqualsTest1()
         {
             Assert.Fail();
