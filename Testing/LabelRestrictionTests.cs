@@ -73,5 +73,27 @@ namespace DLM.Inference.Tests
             Assert.IsFalse(Label.UpperBound <= Label.LowerBound);
             Assert.IsTrue(Label.LowerBound <= Label.LowerBound);
         }
+
+        [TestMethod()]
+        public void Constant()
+        {
+            Assert.IsFalse(c1 <= c2);
+            Assert.IsFalse(c2 <= c1);
+
+            Assert.IsTrue(c1 <= c1);
+            Assert.IsTrue(c2 <= c2);
+
+            Assert.IsFalse(p1 <= c1);
+            Assert.IsFalse(c1 <= p1);
+
+            Assert.IsFalse(p1 <= c2);
+            Assert.IsFalse(c2 <= p1);
+
+            Assert.IsFalse(p2 <= c1);
+            Assert.IsFalse(c1 <= p2);
+
+            Assert.IsFalse(p2 <= c2);
+            Assert.IsFalse(c2 <= p2);
+        }
     }
 }
