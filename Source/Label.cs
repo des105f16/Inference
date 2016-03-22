@@ -130,7 +130,10 @@ namespace DLM.Inference
         }
         private static bool NoMoreRestrictive(Label l1, Label l2)
         {
-            throw new InvalidOperationException($"The <= operator has no definition for; {l1.GetType().Name} <= {l2.GetType().Name}");
+            if (l1.Equals(l2))
+                return true;
+            else
+                throw new InvalidOperationException($"The <= operator has no definition for; {l1.GetType().Name} <= {l2.GetType().Name}");
         }
 
         #region Basic joins
