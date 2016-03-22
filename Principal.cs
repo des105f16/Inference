@@ -43,6 +43,19 @@ namespace DLM.Inference
         /// </summary>
         public Principal[] Subordinates => subordinates.ToArray();
 
+        public Principal[] ActualSubordinates
+        {
+            get
+            {
+                return actualSubordinatesRec(this);
+            }
+        }
+
+        private Principal[] actualSubordinatesRec(Principal principal)
+        {
+            return principal.Subordinates;
+        }
+
         /// <summary>
         /// Returns a <see cref="string"/> that represents this <see cref="Principal"/>.
         /// </summary>
