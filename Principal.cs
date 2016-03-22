@@ -41,7 +41,7 @@ namespace DLM.Inference
         /// <summary>
         /// Gets the list of principals that the principal can act for.
         /// </summary>
-        public List<Principal> Subordinates => subordinates;
+        public Principal[] Subordinates => subordinates.ToArray();
 
         /// <summary>
         /// Returns a <see cref="string"/> that represents this <see cref="Principal"/>.
