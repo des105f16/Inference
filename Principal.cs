@@ -47,13 +47,21 @@ namespace DLM.Inference
         {
             get
             {
-                return actualSubordinatesRec(this);
+                return actualSubordinatesRec(this).ToArray();
             }
         }
 
-        private Principal[] actualSubordinatesRec(Principal principal)
+        private List<Principal> actualSubordinatesRec(Principal principal)
         {
-            return principal.Subordinates;
+            var result = new List<Principal>();
+
+            foreach (var s in principal.Subordinates)
+            {
+                result.Add(s);
+                result.AddRange(actualSubordinatesRec(s));
+            }
+
+            return result;
         }
 
         /// <summary>
