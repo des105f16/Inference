@@ -16,12 +16,6 @@
         {
         }
 
-        protected internal override bool LessRestrictiveThan(ConstantLabel label) => true;
-        protected internal override bool LessRestrictiveThan(PolicyLabel label) => true;
-
-        protected internal override bool LessRestrictiveThan(JoinLabel label) => true;
-        protected internal override bool LessRestrictiveThan(MeetLabel label) => true;
-
         public override bool Equals(Label label) => label is LowerBoundLabel;
 
         /// <summary>

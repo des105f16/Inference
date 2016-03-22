@@ -198,5 +198,20 @@ namespace DLM.Inference
         private static Label Meet(PolicyLabel l1, PolicyLabel l2) => l1 - l2;
 
         #endregion
+
+        #region Basic restriction checks
+
+        private static bool NoMoreRestrictive(LowerBoundLabel l1, LowerBoundLabel l2) => true;
+        private static bool NoMoreRestrictive(LowerBoundLabel l1, Label l2) => true;
+        private static bool NoMoreRestrictive(Label l1, LowerBoundLabel l2) => false;
+
+        private static bool NoMoreRestrictive(UpperBoundLabel l1, UpperBoundLabel l2) => true;
+        private static bool NoMoreRestrictive(UpperBoundLabel l1, Label l2) => false;
+        private static bool NoMoreRestrictive(Label l1, UpperBoundLabel l2) => true;
+
+        private static bool NoMoreRestrictive(UpperBoundLabel l1, LowerBoundLabel l2) => false;
+        private static bool NoMoreRestrictive(LowerBoundLabel l1, UpperBoundLabel l2) => true;
+
+        #endregion
     }
 }
