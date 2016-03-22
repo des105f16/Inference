@@ -56,7 +56,6 @@ namespace DLM.Inference
             return true;
         }
         protected internal override bool LessRestrictiveThan(ConstantLabel label) => false;
-        protected internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
 
         /// <summary>
         /// Generates the join of the two labels.
