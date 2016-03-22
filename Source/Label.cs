@@ -163,40 +163,16 @@ namespace DLM.Inference
 
         #region Basic joins
 
-        private static Label Join(LowerBoundLabel l1, LowerBoundLabel l2)
-        {
-            return LowerBound;
-        }
-        private static Label Join(LowerBoundLabel l1, Label l2)
-        {
-            return l2;
-        }
-        private static Label Join(Label l1, LowerBoundLabel l2)
-        {
-            return l1;
-        }
+        private static Label Join(LowerBoundLabel l1, LowerBoundLabel l2) => LowerBound;
+        private static Label Join(LowerBoundLabel l1, Label l2) => l2;
+        private static Label Join(Label l1, LowerBoundLabel l2) => l1;
 
-        private static Label Join(UpperBoundLabel l1, UpperBoundLabel l2)
-        {
-            return UpperBound;
-        }
-        private static Label Join(UpperBoundLabel l1, Label l2)
-        {
-            return UpperBound;
-        }
-        private static Label Join(Label l1, UpperBoundLabel l2)
-        {
-            return UpperBound;
-        }
+        private static Label Join(UpperBoundLabel l1, UpperBoundLabel l2) => UpperBound;
+        private static Label Join(UpperBoundLabel l1, Label l2) => UpperBound;
+        private static Label Join(Label l1, UpperBoundLabel l2) => UpperBound;
 
-        private static Label Join(UpperBoundLabel l1, LowerBoundLabel l2)
-        {
-            return UpperBound;
-        }
-        private static Label Join(LowerBoundLabel l1, UpperBoundLabel l2)
-        {
-            return UpperBound;
-        }
+        private static Label Join(UpperBoundLabel l1, LowerBoundLabel l2) => UpperBound;
+        private static Label Join(LowerBoundLabel l1, UpperBoundLabel l2) => UpperBound;
 
         private static Label Join(PolicyLabel l1, PolicyLabel l2) => l1 + l2;
 
@@ -204,40 +180,16 @@ namespace DLM.Inference
 
         #region Basic meets
 
-        private static Label Meet(LowerBoundLabel l1, LowerBoundLabel l2)
-        {
-            return LowerBound;
-        }
-        private static Label Meet(LowerBoundLabel l1, Label l2)
-        {
-            return LowerBound;
-        }
-        private static Label Meet(Label l1, LowerBoundLabel l2)
-        {
-            return LowerBound;
-        }
+        private static Label Meet(LowerBoundLabel l1, LowerBoundLabel l2) => LowerBound;
+        private static Label Meet(LowerBoundLabel l1, Label l2) => LowerBound;
+        private static Label Meet(Label l1, LowerBoundLabel l2) => LowerBound;
 
-        private static Label Meet(UpperBoundLabel l1, UpperBoundLabel l2)
-        {
-            return UpperBound;
-        }
-        private static Label Meet(UpperBoundLabel l1, Label l2)
-        {
-            return l2;
-        }
-        private static Label Meet(Label l1, UpperBoundLabel l2)
-        {
-            return l1;
-        }
+        private static Label Meet(UpperBoundLabel l1, UpperBoundLabel l2) => UpperBound;
+        private static Label Meet(UpperBoundLabel l1, Label l2) => l2;
+        private static Label Meet(Label l1, UpperBoundLabel l2) => l2;
 
-        private static Label Meet(UpperBoundLabel l1, LowerBoundLabel l2)
-        {
-            return LowerBound;
-        }
-        private static Label Meet(LowerBoundLabel l1, UpperBoundLabel l2)
-        {
-            return LowerBound;
-        }
+        private static Label Meet(UpperBoundLabel l1, LowerBoundLabel l2) => LowerBound;
+        private static Label Meet(LowerBoundLabel l1, UpperBoundLabel l2) => LowerBound;
 
         private static Label Meet(PolicyLabel l1, PolicyLabel l2) => l1 - l2;
 
