@@ -27,7 +27,7 @@ namespace DLM.Inference
         /// </returns>
         public static bool operator <=(Label l1, Label l2)
         {
-            return l1.NoVariables.lessRestrictiveThan(l2.NoVariables);
+            return NoMoreRestrictive((dynamic)l1.NoVariables, (dynamic)l2.NoVariables);
         }
         /// <summary>
         /// Determines if one label is more (or equally) restrictive than another one.
@@ -159,6 +159,10 @@ namespace DLM.Inference
         private static Label Meet(Label l1, Label l2)
         {
             return new MeetLabel(l1, l2);
+        }
+        private static bool NoMoreRestrictive(Label l1, Label l2)
+        {
+            throw new InvalidOperationException($"The <= operator has no definition for; {l1.GetType().Name} <= {l2.GetType().Name}");
         }
 
         #region Basic joins
