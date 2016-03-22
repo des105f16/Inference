@@ -46,6 +46,6 @@ namespace DLM.Inference
         /// Gets the collection of constraints in the system that could not be verified.
         /// If <see cref="Succes"/> is <c>true</c>, this will return an empty array.
         /// </summary>
-        public Constraint[] ErrorConstraints => constraints.Where(x => x.Left > x.Right).ToArray();
+        public Constraint[] ErrorConstraints => constraints.Where(x => !(x.Left <= x.Right)).ToArray();
     }
 }

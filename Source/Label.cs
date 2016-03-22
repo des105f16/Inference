@@ -17,28 +17,6 @@ namespace DLM.Inference
         public static Label UpperBound => UpperBoundLabel.Singleton;
 
         /// <summary>
-        /// Determines if one label is less restrictive than another one.
-        /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
-        /// </summary>
-        /// <param name="l1">The least restrictive label.</param>
-        /// <param name="l2">The most restrictive label.</param>
-        /// <returns>
-        /// <returns>
-        /// <c>true</c>, if <paramref name="l1"/> is less restrictive than <paramref name="l2"/>.
-        /// </returns>
-        public static bool operator <(Label l1, Label l2) => !(l1 >= l2);
-        /// <summary>
-        /// Determines if one label is more restrictive than another one.
-        /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
-        /// </summary>
-        /// <param name="l1">The most restrictive label.</param>
-        /// <param name="l2">The least restrictive label.</param>
-        /// <returns>
-        /// <c>true</c>, if <paramref name="l1"/> is more restrictive than <paramref name="l2"/>.
-        /// </returns>
-        public static bool operator >(Label l1, Label l2) => !(l1 <= l2);
-
-        /// <summary>
         /// Determines if one label is less (or equally) restrictive than another one.
         /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
         /// </summary>
