@@ -188,5 +188,7 @@ namespace DLM.Inference
         private static bool NoMoreRestrictive(JoinLabel l1, Label l2) => l1.Label1 <= l2 && l1.Label2 <= l2;
         private static bool NoMoreRestrictive(Label l1, JoinLabel l2) => l1 <= l2.Label1 || l1 <= l2.Label2;
         private static bool NoMoreRestrictive(JoinLabel l1, JoinLabel l2) => l1.Label1 <= l2 && l1.Label2 <= l2;
+
+        private static bool NoMoreRestrictive(ConstantLabel l1, ConstantLabel l2) => l1.Equals(l2);
     }
 }
