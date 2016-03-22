@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace DLM.Inference
 {
@@ -190,5 +191,20 @@ namespace DLM.Inference
         private static bool NoMoreRestrictive(JoinLabel l1, JoinLabel l2) => l1.Label1 <= l2 && l1.Label2 <= l2;
 
         private static bool NoMoreRestrictive(ConstantLabel l1, ConstantLabel l2) => l1.Equals(l2);
+
+        private static bool NoMoreRestrictive(PolicyLabel l1, PolicyLabel l2)
+        {
+            foreach (var o in l1.Owners())
+            {
+                if (!l2.Owners().Contains(o))
+                    return false;
+
+                foreach (var r in l2.Readers(o))
+                    if (!l1.Readers(o).Contains(r))
+                        return false;
+            }
+
+            return true;
+        }
     }
 }
