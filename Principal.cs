@@ -43,25 +43,29 @@ namespace DLM.Inference
         /// </summary>
         public Principal[] Subordinates => subordinates.ToArray();
 
+        /// <summary>
+        /// Recursively gets the list of actual principals that the principal can act for.
+        /// </summary>
         public Principal[] ActualSubordinates
         {
             get
             {
-                return actualSubordinatesRec(this).ToArray();
+                var resultHash = new HashSet<Principal>();
+                actualSubordinatesRec(this, resultHash);
+
+                Principal[] resultArray = new Principal[resultHash.Count];
+                resultHash.CopyTo(resultArray);
+                return resultArray;
             }
         }
 
-        private List<Principal> actualSubordinatesRec(Principal principal)
+        private void actualSubordinatesRec(Principal current, HashSet<Principal> result)
         {
-            var result = new List<Principal>();
-
-            foreach (var s in principal.Subordinates)
+            foreach (var s in current.Subordinates)
             {
                 result.Add(s);
-                result.AddRange(actualSubordinatesRec(s));
+                actualSubordinatesRec(s, result);
             }
-
-            return result;
         }
 
         /// <summary>
