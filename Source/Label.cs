@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace DLM.Inference
 {
@@ -17,28 +18,6 @@ namespace DLM.Inference
         public static Label UpperBound => UpperBoundLabel.Singleton;
 
         /// <summary>
-        /// Determines if one label is less restrictive than another one.
-        /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
-        /// </summary>
-        /// <param name="l1">The least restrictive label.</param>
-        /// <param name="l2">The most restrictive label.</param>
-        /// <returns>
-        /// <returns>
-        /// <c>true</c>, if <paramref name="l1"/> is less restrictive than <paramref name="l2"/>.
-        /// </returns>
-        public static bool operator <(Label l1, Label l2) => !(l1 >= l2);
-        /// <summary>
-        /// Determines if one label is more restrictive than another one.
-        /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
-        /// </summary>
-        /// <param name="l1">The most restrictive label.</param>
-        /// <param name="l2">The least restrictive label.</param>
-        /// <returns>
-        /// <c>true</c>, if <paramref name="l1"/> is more restrictive than <paramref name="l2"/>.
-        /// </returns>
-        public static bool operator >(Label l1, Label l2) => !(l1 <= l2);
-
-        /// <summary>
         /// Determines if one label is less (or equally) restrictive than another one.
         /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
         /// </summary>
@@ -49,7 +28,7 @@ namespace DLM.Inference
         /// </returns>
         public static bool operator <=(Label l1, Label l2)
         {
-            return l1.NoVariables.lessRestrictiveThan(l2.NoVariables);
+            return NoMoreRestrictive((dynamic)l1.NoVariables, (dynamic)l2.NoVariables);
         }
         /// <summary>
         /// Determines if one label is more (or equally) restrictive than another one.
@@ -61,38 +40,6 @@ namespace DLM.Inference
         /// <c>true</c>, if <paramref name="l1"/> is more (or equally) restrictive than <paramref name="l2"/>.
         /// </returns>
         public static bool operator >=(Label l1, Label l2) => l2 <= l1;
-
-        private bool lessRestrictiveThan(Label label)
-        {
-            return LessRestrictiveThan((dynamic)label);
-        }
-
-        protected internal virtual bool LessRestrictiveThan(PolicyLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-        protected internal virtual bool LessRestrictiveThan(ConstantLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-        protected internal bool LessRestrictiveThan(VariableLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-
-        protected internal virtual bool LessRestrictiveThan(JoinLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-        protected internal virtual bool LessRestrictiveThan(MeetLabel label)
-        {
-            throw new NotImplementedException(restrictiveNotImplemented(label));
-        }
-
-        private string restrictiveNotImplemented(Label label) => $"There is now implementation for {GetType().Name} \u2291 {label.GetType().Name}.";
-
-        protected internal bool LessRestrictiveThan(LowerBoundLabel label) => this is LowerBoundLabel;
-        protected internal bool LessRestrictiveThan(UpperBoundLabel label) => true;
 
         /// <summary>
         /// Determines if one label is equal to another.
@@ -182,43 +129,26 @@ namespace DLM.Inference
         {
             return new MeetLabel(l1, l2);
         }
+        private static bool NoMoreRestrictive(Label l1, Label l2)
+        {
+            if (l1.Equals(l2))
+                return true;
+            else
+                throw new InvalidOperationException($"The <= operator has no definition for; {l1.GetType().Name} <= {l2.GetType().Name}");
+        }
 
         #region Basic joins
 
-        private static Label Join(LowerBoundLabel l1, LowerBoundLabel l2)
-        {
-            return LowerBound;
-        }
-        private static Label Join(LowerBoundLabel l1, Label l2)
-        {
-            return l2;
-        }
-        private static Label Join(Label l1, LowerBoundLabel l2)
-        {
-            return l1;
-        }
+        private static Label Join(LowerBoundLabel l1, LowerBoundLabel l2) => LowerBound;
+        private static Label Join(LowerBoundLabel l1, Label l2) => l2;
+        private static Label Join(Label l1, LowerBoundLabel l2) => l1;
 
-        private static Label Join(UpperBoundLabel l1, UpperBoundLabel l2)
-        {
-            return UpperBound;
-        }
-        private static Label Join(UpperBoundLabel l1, Label l2)
-        {
-            return UpperBound;
-        }
-        private static Label Join(Label l1, UpperBoundLabel l2)
-        {
-            return UpperBound;
-        }
+        private static Label Join(UpperBoundLabel l1, UpperBoundLabel l2) => UpperBound;
+        private static Label Join(UpperBoundLabel l1, Label l2) => UpperBound;
+        private static Label Join(Label l1, UpperBoundLabel l2) => UpperBound;
 
-        private static Label Join(UpperBoundLabel l1, LowerBoundLabel l2)
-        {
-            return UpperBound;
-        }
-        private static Label Join(LowerBoundLabel l1, UpperBoundLabel l2)
-        {
-            return UpperBound;
-        }
+        private static Label Join(UpperBoundLabel l1, LowerBoundLabel l2) => UpperBound;
+        private static Label Join(LowerBoundLabel l1, UpperBoundLabel l2) => UpperBound;
 
         private static Label Join(PolicyLabel l1, PolicyLabel l2) => l1 + l2;
 
@@ -226,43 +156,62 @@ namespace DLM.Inference
 
         #region Basic meets
 
-        private static Label Meet(LowerBoundLabel l1, LowerBoundLabel l2)
-        {
-            return LowerBound;
-        }
-        private static Label Meet(LowerBoundLabel l1, Label l2)
-        {
-            return LowerBound;
-        }
-        private static Label Meet(Label l1, LowerBoundLabel l2)
-        {
-            return LowerBound;
-        }
+        private static Label Meet(LowerBoundLabel l1, LowerBoundLabel l2) => LowerBound;
+        private static Label Meet(LowerBoundLabel l1, Label l2) => LowerBound;
+        private static Label Meet(Label l1, LowerBoundLabel l2) => LowerBound;
 
-        private static Label Meet(UpperBoundLabel l1, UpperBoundLabel l2)
-        {
-            return UpperBound;
-        }
-        private static Label Meet(UpperBoundLabel l1, Label l2)
-        {
-            return l2;
-        }
-        private static Label Meet(Label l1, UpperBoundLabel l2)
-        {
-            return l1;
-        }
+        private static Label Meet(UpperBoundLabel l1, UpperBoundLabel l2) => UpperBound;
+        private static Label Meet(UpperBoundLabel l1, Label l2) => l2;
+        private static Label Meet(Label l1, UpperBoundLabel l2) => l2;
 
-        private static Label Meet(UpperBoundLabel l1, LowerBoundLabel l2)
-        {
-            return LowerBound;
-        }
-        private static Label Meet(LowerBoundLabel l1, UpperBoundLabel l2)
-        {
-            return LowerBound;
-        }
+        private static Label Meet(UpperBoundLabel l1, LowerBoundLabel l2) => LowerBound;
+        private static Label Meet(LowerBoundLabel l1, UpperBoundLabel l2) => LowerBound;
 
         private static Label Meet(PolicyLabel l1, PolicyLabel l2) => l1 - l2;
 
         #endregion
+
+        #region Basic restriction checks
+
+        private static bool NoMoreRestrictive(LowerBoundLabel l1, LowerBoundLabel l2) => true;
+        private static bool NoMoreRestrictive(LowerBoundLabel l1, Label l2) => true;
+        private static bool NoMoreRestrictive(Label l1, LowerBoundLabel l2) => false;
+
+        private static bool NoMoreRestrictive(UpperBoundLabel l1, UpperBoundLabel l2) => true;
+        private static bool NoMoreRestrictive(UpperBoundLabel l1, Label l2) => false;
+        private static bool NoMoreRestrictive(Label l1, UpperBoundLabel l2) => true;
+
+        private static bool NoMoreRestrictive(UpperBoundLabel l1, LowerBoundLabel l2) => false;
+        private static bool NoMoreRestrictive(LowerBoundLabel l1, UpperBoundLabel l2) => true;
+
+        private static bool NoMoreRestrictive(LowerBoundLabel l1, JoinLabel l2) => NoMoreRestrictive((Label)l1, l2);
+        private static bool NoMoreRestrictive(JoinLabel l1, LowerBoundLabel l2) => NoMoreRestrictive(l1, (Label)l2);
+        private static bool NoMoreRestrictive(UpperBoundLabel l1, JoinLabel l2) => NoMoreRestrictive((Label)l1, l2);
+        private static bool NoMoreRestrictive(JoinLabel l1, UpperBoundLabel l2) => NoMoreRestrictive(l1, (Label)l2);
+
+        #endregion
+
+        private static bool NoMoreRestrictive(JoinLabel l1, Label l2) => l1.Label1 <= l2 && l1.Label2 <= l2;
+        private static bool NoMoreRestrictive(Label l1, JoinLabel l2) => l1 <= l2.Label1 || l1 <= l2.Label2;
+        private static bool NoMoreRestrictive(JoinLabel l1, JoinLabel l2) => l1.Label1 <= l2 && l1.Label2 <= l2;
+
+        private static bool NoMoreRestrictive(ConstantLabel l1, ConstantLabel l2) => l1.Equals(l2);
+        private static bool NoMoreRestrictive(PolicyLabel l1, PolicyLabel l2)
+        {
+            foreach (var o in l1.Owners())
+            {
+                if (!l2.Owners().Contains(o))
+                    return false;
+
+                foreach (var r in l2.Readers(o))
+                    if (!l1.Readers(o).Contains(r))
+                        return false;
+            }
+
+            return true;
+        }
+
+        private static bool NoMoreRestrictive(ConstantLabel l1, PolicyLabel l2) => false;
+        private static bool NoMoreRestrictive(PolicyLabel l1, ConstantLabel l2) => false;
     }
 }

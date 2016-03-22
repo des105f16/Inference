@@ -19,13 +19,7 @@ namespace DLM.Inference
             this.l1 = l1;
             this.l2 = l2;
         }
-
-        protected internal override bool LessRestrictiveThan(PolicyLabel label) => l1 <= label && l2 <= label;
-        protected internal override bool LessRestrictiveThan(ConstantLabel label) => l1 <= label && l2 <= label;
-
-        protected internal override bool LessRestrictiveThan(JoinLabel label) => l1 <= label && l2 <= label;
-        protected internal override bool LessRestrictiveThan(MeetLabel label) => l1 <= label && l2 <= label;
-
+        
         public override bool Equals(Label label) => label is JoinLabel ? Equals(label as JoinLabel) : false;
         public bool Equals(JoinLabel label) => ArrayEquatable.Equals(flatten(), label.flatten());
 

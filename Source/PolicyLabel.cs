@@ -41,23 +41,6 @@ namespace DLM.Inference
         public override bool Equals(Label label) => label is PolicyLabel ? Equals(label as PolicyLabel) : false;
         public bool Equals(PolicyLabel label) => ArrayEquatable.Equals(policies, label.policies);
 
-        protected internal override bool LessRestrictiveThan(PolicyLabel label)
-        {
-            foreach (var o in Owners())
-            {
-                if (!label.Owners().Contains(o))
-                    return false;
-
-                foreach (var r in label.Readers(o))
-                    if (!Readers(o).Contains(r))
-                        return false;
-            }
-
-            return true;
-        }
-        protected internal override bool LessRestrictiveThan(ConstantLabel label) => false;
-        protected internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
-
         /// <summary>
         /// Generates the join of the two labels.
         /// </summary>

@@ -47,7 +47,7 @@ namespace DLM.Inference
         {
             for (int i = 0; i < constraints.Count; i++)
             {
-                if (constraints[i].Left > constraints[i].Right)
+                if (!(constraints[i].Left <= constraints[i].Right))
                 {
                     var c = constraints[i];
                     var v = c.Left as VariableLabel;

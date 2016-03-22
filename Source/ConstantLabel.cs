@@ -25,11 +25,6 @@ namespace DLM.Inference
             this.name = name;
         }
 
-        protected internal override bool LessRestrictiveThan(PolicyLabel label) => false;
-        protected internal override bool LessRestrictiveThan(ConstantLabel label) => this == label;
-
-        protected internal override bool LessRestrictiveThan(JoinLabel label) => this <= label.Label1 || this <= label.Label2;
-
         public override bool Equals(Label label) => label is ConstantLabel ? Equals(label as ConstantLabel) : false;
         public bool Equals(ConstantLabel label) => name.Equals(label.name);
 
