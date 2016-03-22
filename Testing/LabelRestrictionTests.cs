@@ -22,6 +22,15 @@ namespace DLM.Inference.Tests
         private VariableLabel v1;
         private VariableLabel v2;
 
+        private static void isTrue(Label l1, Label l2)
+        {
+            Assert.IsTrue(l1 <= l2, $"{l1} \u2291 {l2} should be true.");
+        }
+        private static void isFalse(Label l1, Label l2)
+        {
+            Assert.IsFalse(l1 <= l2, $"{l1} \u2291 {l2} should be false.");
+        }
+
         [TestInitialize()]
         public void Initialize()
         {
@@ -41,59 +50,59 @@ namespace DLM.Inference.Tests
         [TestMethod()]
         public void UpperBound()
         {
-            Assert.IsFalse(Label.UpperBound <= p1);
-            Assert.IsTrue(p1 <= Label.UpperBound);
-            Assert.IsFalse(Label.UpperBound <= p2);
-            Assert.IsTrue(p2 <= Label.UpperBound);
+            isFalse(Label.UpperBound, p1);
+            isTrue(p1, Label.UpperBound);
+            isFalse(Label.UpperBound, p2);
+            isTrue(p2, Label.UpperBound);
 
-            Assert.IsFalse(Label.UpperBound <= c1);
-            Assert.IsTrue(c1 <= Label.UpperBound);
-            Assert.IsFalse(Label.UpperBound <= c2);
-            Assert.IsTrue(c2 <= Label.UpperBound);
+            isFalse(Label.UpperBound, c1);
+            isTrue(c1, Label.UpperBound);
+            isFalse(Label.UpperBound, c2);
+            isTrue(c2, Label.UpperBound);
 
-            Assert.IsFalse(Label.UpperBound <= Label.LowerBound);
-            Assert.IsTrue(Label.LowerBound <= Label.UpperBound);
-            Assert.IsTrue(Label.UpperBound <= Label.UpperBound);
+            isFalse(Label.UpperBound, Label.LowerBound);
+            isTrue(Label.LowerBound, Label.UpperBound);
+            isTrue(Label.UpperBound, Label.UpperBound);
         }
 
         [TestMethod()]
         public void LowerBound()
         {
-            Assert.IsTrue(Label.LowerBound <= p1);
-            Assert.IsFalse(p1 <= Label.LowerBound);
-            Assert.IsTrue(Label.LowerBound <= p2);
-            Assert.IsFalse(p2 <= Label.LowerBound);
+            isTrue(Label.LowerBound, p1);
+            isFalse(p1, Label.LowerBound);
+            isTrue(Label.LowerBound, p2);
+            isFalse(p2, Label.LowerBound);
 
-            Assert.IsTrue(Label.LowerBound <= c1);
-            Assert.IsFalse(c1 <= Label.LowerBound);
-            Assert.IsTrue(Label.LowerBound <= c2);
-            Assert.IsFalse(c2 <= Label.LowerBound);
+            isTrue(Label.LowerBound, c1);
+            isFalse(c1, Label.LowerBound);
+            isTrue(Label.LowerBound, c2);
+            isFalse(c2, Label.LowerBound);
 
-            Assert.IsTrue(Label.LowerBound <= Label.UpperBound);
-            Assert.IsFalse(Label.UpperBound <= Label.LowerBound);
-            Assert.IsTrue(Label.LowerBound <= Label.LowerBound);
+            isTrue(Label.LowerBound, Label.UpperBound);
+            isFalse(Label.UpperBound, Label.LowerBound);
+            isTrue(Label.LowerBound, Label.LowerBound);
         }
 
         [TestMethod()]
         public void Constant()
         {
-            Assert.IsFalse(c1 <= c2);
-            Assert.IsFalse(c2 <= c1);
+            isFalse(c1, c2);
+            isFalse(c2, c1);
 
-            Assert.IsTrue(c1 <= c1);
-            Assert.IsTrue(c2 <= c2);
+            isTrue(c1, c1);
+            isTrue(c2, c2);
 
-            Assert.IsFalse(p1 <= c1);
-            Assert.IsFalse(c1 <= p1);
+            isFalse(p1, c1);
+            isFalse(c1, p1);
 
-            Assert.IsFalse(p1 <= c2);
-            Assert.IsFalse(c2 <= p1);
+            isFalse(p1, c2);
+            isFalse(c2, p1);
 
-            Assert.IsFalse(p2 <= c1);
-            Assert.IsFalse(c1 <= p2);
+            isFalse(p2, c1);
+            isFalse(c1, p2);
 
-            Assert.IsFalse(p2 <= c2);
-            Assert.IsFalse(c2 <= p2);
+            isFalse(p2, c2);
+            isFalse(c2, p2);
         }
     }
 }
