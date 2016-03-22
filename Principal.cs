@@ -51,6 +51,11 @@ namespace DLM.Inference
             }
         }
 
+        /// <summary>
+        /// Adds the <see cref="Principal"/> to the list of subordinates.
+        /// </summary>
+        /// <param name="principal">The subordinate to be added.</param>
+        /// <returns>True if the subordinate was added, false if it is already present.</returns>
         public bool AddSubordinate(Principal principal)
         {
             return subordinates.Add(principal);
