@@ -32,8 +32,8 @@ namespace DLM.Inference.Tests
             carl.AddSubordinate(doctor);
             manager.AddSubordinate(bob);
             manager.AddSubordinate(amy);
-            bob.AddSubordinate(amy);
-            amy.AddSubordinate(bob);
+            bob.AddSubordinate(group);
+            amy.AddSubordinate(group);
         }
 
         [Test()]
@@ -46,7 +46,12 @@ namespace DLM.Inference.Tests
         [Test()]
         public void ActualSubordinatesTest()
         {
-            Assert.Fail();
+            CollectionAssert.AreEquivalent(carl.ActualSubordinates, new Principal[] { manager, doctor, bob, amy, group });
+            CollectionAssert.AreEquivalent(doctor.ActualSubordinates, new Principal[] { });
+            CollectionAssert.AreEquivalent(manager.ActualSubordinates, new Principal[] { bob, amy, group });
+            CollectionAssert.AreEquivalent(bob.ActualSubordinates, new Principal[] { group });
+            CollectionAssert.AreEquivalent(amy.ActualSubordinates, new Principal[] { group });
+            CollectionAssert.AreEquivalent(group.ActualSubordinates, new Principal[] { });
         }
     }
 }
