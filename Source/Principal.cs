@@ -49,7 +49,12 @@ namespace DLM.Inference
         /// </summary>
         /// <param name="principal">The subordinate to be added.</param>
         /// <returns>True if the subordinate was added, false if it is already present.</returns>
-        public bool AddSubordinate(Principal principal) => subordinates.Add(principal);
+        public bool AddSubordinate(Principal principal)
+        {
+            if (principal.ActualSubordinates.Contains(this))
+                throw new PrincipalCircularDependencyException();
+            return subordinates.Add(principal);
+        }
 
         /// <summary>
         /// Recursively gets the list of actual principals that the principal can act for.
@@ -80,5 +85,14 @@ namespace DLM.Inference
         /// A <see cref="string"/> that represents this <see cref="Principal"/>.
         /// </returns>
         public override string ToString() => name;
+    }
+
+    public class PrincipalCircularDependencyException : Exception
+    {
+        public PrincipalCircularDependencyException() { }
+
+        public PrincipalCircularDependencyException(string message) : base(message) { }
+
+        public PrincipalCircularDependencyException(string message, Exception inner) : base(message, inner) { }
     }
 }
