@@ -31,7 +31,8 @@ namespace DLM.Inference.Tests
         [Test()]
         public void AddSubordinateTest()
         {
-            Assert.Fail();
+            Assert.True(p1.AddSubordinate(p2), $"{p1.Name} can have {p2.Name} added as a subordinate as it doesn't already have it.");
+            Assert.False(p1.AddSubordinate(p2), $"{p1.Name} cannot have {p2.Name} added as a subordinate, because it already has it.");
         }
 
         [Test()]
