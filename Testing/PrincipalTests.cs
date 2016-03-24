@@ -20,12 +20,20 @@ namespace DLM.Inference.Tests
             p1 = new Principal(nameof(p1));
             p2 = new Principal(nameof(p2));
 
+            //Hierarchy from Myers2000 - Figure 3
             carl = new Principal(nameof(carl));
             manager = new Principal(nameof(manager));
             doctor = new Principal(nameof(doctor));
             bob = new Principal(nameof(bob));
             amy = new Principal(nameof(amy));
             group = new Principal(nameof(group));
+
+            carl.AddSubordinate(manager);
+            carl.AddSubordinate(doctor);
+            manager.AddSubordinate(bob);
+            manager.AddSubordinate(amy);
+            bob.AddSubordinate(amy);
+            amy.AddSubordinate(bob);
         }
 
         [Test()]
