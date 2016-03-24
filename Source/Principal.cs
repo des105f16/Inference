@@ -81,4 +81,13 @@ namespace DLM.Inference
         /// </returns>
         public override string ToString() => name;
     }
+
+    public class PrincipalCircularDependencyException : Exception
+    {
+        public PrincipalCircularDependencyException() { }
+
+        public PrincipalCircularDependencyException(string message) : base(message) { }
+
+        public PrincipalCircularDependencyException(string message, Exception inner) : base(message, inner) { }
+    }
 }
