@@ -7,8 +7,8 @@ namespace DLM.Inference
     /// </summary>
     public class Constraint
     {
-        private Label left;
-        private Label right;
+        private readonly Label left;
+        private readonly Label right;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Constraint"/> class.

@@ -7,7 +7,7 @@ namespace DLM.Inference
     /// </summary>
     public class JoinLabel : Label
     {
-        private Label l1, l2;
+        private readonly Label l1, l2;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JoinLabel"/> class.

@@ -9,8 +9,8 @@ namespace DLM.Inference
     /// </summary>
     public class Principal : IEquatable<Principal>
     {
-        private string name;
-        private HashSet<Principal> subordinates;
+        private readonly string name;
+        private readonly HashSet<Principal> subordinates;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Principal"/> class.

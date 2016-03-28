@@ -7,7 +7,7 @@ namespace DLM.Inference
     /// </summary>
     public class VariableLabel : Label, IEquatable<VariableLabel>
     {
-        private string name;
+        private readonly string name;
         private Label currentUpperBound;
 
         /// <summary>

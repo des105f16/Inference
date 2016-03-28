@@ -8,7 +8,7 @@ namespace DLM.Inference
     /// </summary>
     public class MeetLabel : Label, IEquatable<MeetLabel>
     {
-        private Label l1, l2;
+        private readonly Label l1, l2;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MeetLabel"/> class.

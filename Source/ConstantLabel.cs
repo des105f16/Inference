@@ -7,7 +7,7 @@ namespace DLM.Inference
     /// </summary>
     public class ConstantLabel : Label, IEquatable<ConstantLabel>
     {
-        private string name;
+        private readonly string name;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstantLabel"/> class.

@@ -9,7 +9,7 @@ namespace DLM.Inference
     /// </summary>
     public class PolicyLabel : Label, IEquatable<PolicyLabel>
     {
-        private Policy[] policies;
+        private readonly Policy[] policies;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PolicyLabel"/> class.

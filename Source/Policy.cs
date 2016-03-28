@@ -9,8 +9,8 @@ namespace DLM.Inference
     /// </summary>
     public class Policy : IEquatable<Policy>
     {
-        private Principal owner;
-        private Principal[] readers;
+        private readonly Principal owner;
+        private readonly Principal[] readers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Policy"/> struct.
