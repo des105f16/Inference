@@ -22,6 +22,13 @@
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="LowerBoundLabel" />
         /// </summary>
         public override Label NoVariables => this;
+        /// <summary>
+        /// Returns a <see cref="LowerBoundLabel"/>; see <see cref="Label.ReplaceConstant(ConstantLabel, Label)"/>.
+        /// </summary>
+        /// <param name="constant">The constant label that should be replaced.</param>
+        /// <param name="replacement">The replacement label.</param>
+        /// <returns>A <see cref="LowerBoundLabel"/>.</returns>
+        public override Label ReplaceConstant(ConstantLabel constant, Label replacement) => this;
 
         /// <summary>
         /// Returns a <see cref="string"/> that represents this <see cref="LowerBoundLabel"/>.

@@ -43,6 +43,13 @@ namespace DLM.Inference
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="MeetLabel" />
         /// </summary>
         public override Label NoVariables => l1.NoVariables - l2.NoVariables;
+        /// <summary>
+        /// Replaces a <see cref="ConstantLabel"/> with another label in this <see cref="MeetLabel"/>.
+        /// </summary>
+        /// <param name="constant">The constant label that should be replaced.</param>
+        /// <param name="replacement">The replacement label.</param>
+        /// <returns>The result of the label replacement.</returns>
+        public override Label ReplaceConstant(ConstantLabel constant, Label replacement) => l1.ReplaceConstant(constant, replacement) - l2.ReplaceConstant(constant, replacement);
 
         /// <summary>
         /// Gets the first label in the meet.

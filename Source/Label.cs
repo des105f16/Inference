@@ -95,6 +95,13 @@ namespace DLM.Inference
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="Label"/>
         /// </summary>
         public abstract Label NoVariables { get; }
+        /// <summary>
+        /// Replaces a <see cref="ConstantLabel"/> with another label.
+        /// </summary>
+        /// <param name="constant">The constant label that should be replaced.</param>
+        /// <param name="replacement">The replacement label.</param>
+        /// <returns>The result of the label replacement.</returns>
+        public abstract Label ReplaceConstant(ConstantLabel constant, Label replacement);
 
         /// <summary>
         /// Generates the join of the two labels.

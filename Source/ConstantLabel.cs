@@ -32,6 +32,13 @@ namespace DLM.Inference
         /// Gets the upper bound estimate <see cref="Label"/> of this <see cref="ConstantLabel" />
         /// </summary>
         public override Label NoVariables => this;
+        /// <summary>
+        /// Replaces this <see cref="ConstantLabel"/> with another label if it matches the <paramref name="constant"/> argument.
+        /// </summary>
+        /// <param name="constant">The constant label that should be replaced.</param>
+        /// <param name="replacement">The replacement label.</param>
+        /// <returns>The result of the label replacement.</returns>
+        public override Label ReplaceConstant(ConstantLabel constant, Label replacement) => constant == this ? replacement : this;
 
         /// <summary>
         /// Gets the name associated with the label.
