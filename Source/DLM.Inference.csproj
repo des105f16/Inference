@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayEquatable.cs" />
+    <Compile Include="AuthorityLabel.cs" />
     <Compile Include="ConstantLabel.cs" />
     <Compile Include="Constraint.cs" />
     <Compile Include="ConstraintResolver.cs" />
