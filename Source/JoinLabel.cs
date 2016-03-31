@@ -19,7 +19,13 @@ namespace DLM.Inference
             this.l1 = l1;
             this.l2 = l2;
         }
-        
+
+        /// <summary>
+        /// Produces the join of deep copies of this labels two components.
+        /// </summary>
+        /// <returns>A copy of this <see cref="JoinLabel"/>.</returns>
+        public override Label Clone() => l1.Clone() + l2.Clone();
+
         public override bool Equals(Label label) => label is JoinLabel ? Equals(label as JoinLabel) : false;
         public bool Equals(JoinLabel label) => ArrayEquatable.Equals(flatten(), label.flatten());
 

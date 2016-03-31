@@ -27,6 +27,12 @@ namespace DLM.Inference
             this.currentUpperBound = UpperBoundLabel.Singleton;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="VariableLabel"/> with the same name as this label and a copy of its current upper bound.
+        /// </summary>
+        /// <returns>A copy of this <see cref="VariableLabel"/>.</returns>
+        public override Label Clone() => new VariableLabel(name) { currentUpperBound = currentUpperBound.Clone() };
+
         public override bool Equals(Label label) => label is VariableLabel ? Equals(label as VariableLabel) : false;
         public bool Equals(VariableLabel label) => name.Equals(label.name);
 

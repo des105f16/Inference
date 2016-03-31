@@ -38,6 +38,12 @@ namespace DLM.Inference
                 throw new ArgumentException($"A policy label must have policies. Otherwise see {nameof(LowerBoundLabel)}.", nameof(policies));
         }
 
+        /// <summary>
+        /// Creates a copy of this <see cref="PolicyLabel"/>, preserving its current set of policies.
+        /// </summary>
+        /// <returns>A copy of this <see cref="PolicyLabel"/>.</returns>
+        public override Label Clone() => new PolicyLabel(policies);
+
         public override bool Equals(Label label) => label is PolicyLabel ? Equals(label as PolicyLabel) : false;
         public bool Equals(PolicyLabel label) => ArrayEquatable.Equals(policies, label.policies);
 

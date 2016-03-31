@@ -25,6 +25,12 @@ namespace DLM.Inference
             this.name = name;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="ConstantLabel"/> with the same name as this label.
+        /// </summary>
+        /// <returns>A copy of this <see cref="ConstantLabel"/>.</returns>
+        public override Label Clone() => new ConstantLabel(name);
+
         public override bool Equals(Label label) => label is ConstantLabel ? Equals(label as ConstantLabel) : false;
         public bool Equals(ConstantLabel label) => name.Equals(label.name);
 

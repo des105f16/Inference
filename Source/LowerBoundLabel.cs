@@ -16,6 +16,12 @@
         {
         }
 
+        /// <summary>
+        /// Returns this <see cref="LowerBoundLabel"/>, which is a singleton object.
+        /// </summary>
+        /// <returns>This <see cref="LowerBoundLabel"/>.</returns>
+        public override Label Clone() => this;
+
         public override bool Equals(Label label) => label is LowerBoundLabel;
 
         /// <summary>

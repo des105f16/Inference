@@ -18,6 +18,12 @@ namespace DLM.Inference
         public static Label UpperBound => UpperBoundLabel.Singleton;
 
         /// <summary>
+        /// Creates a deep-copy of this <see cref="Label"/> that is its equal.
+        /// </summary>
+        /// <returns>A copy of this <see cref="Label"/>.</returns>
+        public abstract Label Clone();
+
+        /// <summary>
         /// Determines if one label is less (or equally) restrictive than another one.
         /// Note that this operator employs the <see cref="Label.NoVariables"/> property for comparison.
         /// </summary>

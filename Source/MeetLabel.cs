@@ -21,6 +21,12 @@ namespace DLM.Inference
             this.l2 = l2;
         }
 
+        /// <summary>
+        /// Produces the meet of deep copies of this labels two components.
+        /// </summary>
+        /// <returns>A copy of this <see cref="MeetLabel"/>.</returns>
+        public override Label Clone() => l1.Clone() - l2.Clone();
+
         public override bool Equals(Label label) => label is MeetLabel ? Equals(label as MeetLabel) : false;
         public bool Equals(MeetLabel label) => ArrayEquatable.Equals(flatten(), label.flatten());
 
