@@ -47,6 +47,7 @@
     <Compile Include="AuthorityLabel.cs" />
     <Compile Include="ConstantLabel.cs" />
     <Compile Include="Constraint.cs" />
+    <Compile Include="ConstraintBuilder.cs" />
     <Compile Include="ConstraintResolver.cs" />
     <Compile Include="InferenceResult.cs" />
     <Compile Include="LabelStack.cs" />
