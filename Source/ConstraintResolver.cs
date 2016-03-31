@@ -86,10 +86,10 @@ namespace DLM.Inference
         /// <param name="builder">A function that will generate new constraints while preserving meta-data.</param>
         /// <param name="constraints">The constraint-system that should be resolved.</param>
         /// <returns>
-        /// A <see cref="InferenceResult"/> representing the result of the method.
-        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.
+        /// A <see cref="InferenceResult{T}"/> representing the result of the method.
+        /// <see cref="InferenceResult{T}.Succes"/> indicates if the constraints were successfully resolved.
         /// </returns>
-        public static InferenceResult Resolve(ConstraintBuilder<T> builder, IEnumerable<T> constraints)
+        public static InferenceResult<T> Resolve(ConstraintBuilder<T> builder, IEnumerable<T> constraints)
         {
             var resolver = new ConstraintResolver<T>(builder, constraints);
 
@@ -98,7 +98,7 @@ namespace DLM.Inference
             resolver.removeDuplicates();
             bool succes = resolver.resolve();
 
-            return new InferenceResult(succes, resolver.getVariables(), resolver.constraints);
+            return new InferenceResult<T>(succes, resolver.getVariables(), resolver.constraints);
         }
         /// <summary>
         /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
@@ -106,10 +106,10 @@ namespace DLM.Inference
         /// <param name="builder">A function that will generate new constraints while preserving meta-data.</param>
         /// <param name="constraints">The constraint-system that should be resolved.</param>
         /// <returns>
-        /// A <see cref="InferenceResult"/> representing the result of the method.
-        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.
+        /// A <see cref="InferenceResult{T}"/> representing the result of the method.
+        /// <see cref="InferenceResult{T}.Succes"/> indicates if the constraints were successfully resolved.
         /// </returns>
-        public static InferenceResult Resolve(ConstraintBuilder<T> builder, params T[] constraints)
+        public static InferenceResult<T> Resolve(ConstraintBuilder<T> builder, params T[] constraints)
         {
             return Resolve(builder, constraints as IEnumerable<T>);
         }
@@ -122,10 +122,10 @@ namespace DLM.Inference
         /// </summary>
         /// <param name="constraints">The constraint-system that should be resolved.</param>
         /// <returns>
-        /// A <see cref="InferenceResult"/> representing the result of the method.
-        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.
+        /// A <see cref="InferenceResult{T}"/> representing the result of the method.
+        /// <see cref="InferenceResult{T}.Succes"/> indicates if the constraints were successfully resolved.
         /// </returns>
-        public static InferenceResult Resolve(IEnumerable<Constraint> constraints)
+        public static InferenceResult<Constraint> Resolve(IEnumerable<Constraint> constraints)
         {
             return ConstraintResolver<Constraint>.Resolve((o, l, r) => new Constraint(l, r), constraints);
         }
@@ -134,10 +134,10 @@ namespace DLM.Inference
         /// </summary>
         /// <param name="constraints">The constraint-system that should be resolved.</param>
         /// <returns>
-        /// A <see cref="InferenceResult"/> representing the result of the method.
-        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.
+        /// A <see cref="InferenceResult{T}"/> representing the result of the method.
+        /// <see cref="InferenceResult{T}.Succes"/> indicates if the constraints were successfully resolved.
         /// </returns>
-        public static InferenceResult Resolve(params Constraint[] constraints)
+        public static InferenceResult<Constraint> Resolve(params Constraint[] constraints)
         {
             return ConstraintResolver<Constraint>.Resolve((o, l, r) => new Constraint(l, r), constraints);
         }

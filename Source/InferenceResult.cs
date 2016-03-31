@@ -6,11 +6,12 @@ namespace DLM.Inference
     /// <summary>
     /// Represents the result of a call to the <see cref="ConstraintResolver"/>.
     /// </summary>
-    public class InferenceResult
+    /// <typeparam name="T">The type of the constraints that have been resolved.</typeparam>
+    public class InferenceResult<T> where T : Constraint
     {
         private bool succes;
         private VariableLabel[] variables;
-        private Constraint[] constraints;
+        private T[] constraints;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InferenceResult"/> class.
@@ -18,7 +19,7 @@ namespace DLM.Inference
         /// <param name="succes">Indicates if the inference was successful or not.</param>
         /// <param name="variables">The collection of variables in the system.</param>
         /// <param name="constraints">The collection of constraints in the system.</param>
-        public InferenceResult(bool succes, IEnumerable<VariableLabel> variables, IEnumerable<Constraint> constraints)
+        public InferenceResult(bool succes, IEnumerable<VariableLabel> variables, IEnumerable<T> constraints)
         {
             this.succes = succes;
             this.variables = variables.ToArray();
@@ -40,12 +41,12 @@ namespace DLM.Inference
         /// <summary>
         /// Gets the collection of constraints in the resolved system.
         /// </summary>
-        public Constraint[] Constraints => constraints;
+        public T[] Constraints => constraints;
 
         /// <summary>
         /// Gets the collection of constraints in the system that could not be verified.
         /// If <see cref="Succes"/> is <c>true</c>, this will return an empty array.
         /// </summary>
-        public Constraint[] ErrorConstraints => constraints.Where(x => !(x.Left <= x.Right)).ToArray();
+        public T[] ErrorConstraints => constraints.Where(x => !(x.Left <= x.Right)).ToArray();
     }
 }
