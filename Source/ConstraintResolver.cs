@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DLM.Inference
@@ -6,13 +7,16 @@ namespace DLM.Inference
     /// <summary>
     /// Provides methods that implement the label inference algorithm.
     /// </summary>
-    public class ConstraintResolver
+    /// <typeparam name="T">The type of the constraints that should be resolved.</typeparam>
+    public class ConstraintResolver<T> where T : Constraint
     {
-        private List<Constraint> constraints;
+        private List<T> constraints;
+        private ConstraintBuilder<T> builder;
 
-        private ConstraintResolver(IEnumerable<Constraint> constraints)
+        private ConstraintResolver(ConstraintBuilder<T> builder, IEnumerable<T> constraints)
         {
-            this.constraints = new List<Constraint>(constraints);
+            this.constraints = new List<T>(constraints);
+            this.builder = builder;
         }
 
         private void removeLeftJoins()
@@ -25,8 +29,8 @@ namespace DLM.Inference
 
                     constraints.RemoveAt(i);
 
-                    constraints.Insert(i, new Constraint(l.Label1, r));
-                    constraints.Insert(i, new Constraint(l.Label2, r));
+                    constraints.Insert(i, builder(constraints[i], l.Label1, r));
+                    constraints.Insert(i, builder(constraints[i], l.Label2, r));
 
                     i--;
                 }
@@ -79,12 +83,15 @@ namespace DLM.Inference
         /// <summary>
         /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
         /// </summary>
+        /// <param name="builder">A function that will generate new constraints while preserving meta-data.</param>
         /// <param name="constraints">The constraint-system that should be resolved.</param>
-        /// <returns>A <see cref="InferenceResult"/> representing the result of the method.
-        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.</returns>
-        public static InferenceResult Resolve(IEnumerable<Constraint> constraints)
+        /// <returns>
+        /// A <see cref="InferenceResult"/> representing the result of the method.
+        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.
+        /// </returns>
+        public static InferenceResult Resolve(ConstraintBuilder<T> builder, IEnumerable<T> constraints)
         {
-            var resolver = new ConstraintResolver(constraints);
+            var resolver = new ConstraintResolver<T>(builder, constraints);
 
             resolver.removeLeftJoins();
             resolver.clearTrivials();
@@ -96,12 +103,15 @@ namespace DLM.Inference
         /// <summary>
         /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
         /// </summary>
+        /// <param name="builder">A function that will generate new constraints while preserving meta-data.</param>
         /// <param name="constraints">The constraint-system that should be resolved.</param>
-        /// <returns>A <see cref="InferenceResult"/> representing the result of the method.
-        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.</returns>
-        public static InferenceResult Resolve(params Constraint[] constraints)
+        /// <returns>
+        /// A <see cref="InferenceResult"/> representing the result of the method.
+        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.
+        /// </returns>
+        public static InferenceResult Resolve(ConstraintBuilder<T> builder, params T[] constraints)
         {
-            return Resolve(constraints as IEnumerable<Constraint>);
+            return Resolve(builder, constraints as IEnumerable<T>);
         }
     }
 }
