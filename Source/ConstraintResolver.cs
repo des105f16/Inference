@@ -4,11 +4,18 @@ using System.Linq;
 namespace DLM.Inference
 {
     /// <summary>
-    /// Provides a method that implements the label inference algorithm.
+    /// Provides methods that implement the label inference algorithm.
     /// </summary>
-    public static class ConstraintResolver
+    public class ConstraintResolver
     {
-        private static void removeLeftJoins(List<Constraint> constraints)
+        private List<Constraint> constraints;
+
+        private ConstraintResolver(IEnumerable<Constraint> constraints)
+        {
+            this.constraints = new List<Constraint>(constraints);
+        }
+
+        private void removeLeftJoins()
         {
             for (int i = 0; i < constraints.Count; i++)
                 if (constraints[i].Left is JoinLabel)
@@ -24,7 +31,7 @@ namespace DLM.Inference
                     i--;
                 }
         }
-        private static void clearTrivials(List<Constraint> constraints)
+        private void clearTrivials()
         {
             for (int i = 0; i < constraints.Count; i++)
                 if (
@@ -34,7 +41,7 @@ namespace DLM.Inference
                     )
                     constraints.RemoveAt(i--);
         }
-        private static void removeDuplicates(List<Constraint> constraints)
+        private void removeDuplicates()
         {
             for (int i = 0; i < constraints.Count - 1; i++)
                 for (int j = i + 1; j < constraints.Count; j++)
@@ -43,7 +50,7 @@ namespace DLM.Inference
                         constraints.RemoveAt(j--);
         }
 
-        private static bool resolve(List<Constraint> constraints)
+        private bool resolve()
         {
             for (int i = 0; i < constraints.Count; i++)
             {
@@ -64,7 +71,7 @@ namespace DLM.Inference
             return true;
         }
 
-        private static VariableLabel[] getVariables(List<Constraint> constraints)
+        private VariableLabel[] getVariables()
         {
             return constraints.Select(c => c.Left).OfType<VariableLabel>().Distinct().ToArray();
         }
@@ -77,13 +84,14 @@ namespace DLM.Inference
         /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.</returns>
         public static InferenceResult Resolve(IEnumerable<Constraint> constraints)
         {
-            List<Constraint> list = new List<Constraint>(constraints);
+            var resolver = new ConstraintResolver(constraints);
 
-            removeLeftJoins(list);
-            clearTrivials(list);
-            removeDuplicates(list);
+            resolver.removeLeftJoins();
+            resolver.clearTrivials();
+            resolver.removeDuplicates();
+            bool succes = resolver.resolve();
 
-            return new InferenceResult(resolve(list), getVariables(list), list);
+            return new InferenceResult(succes, resolver.getVariables(), resolver.constraints);
         }
         /// <summary>
         /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
