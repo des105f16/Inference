@@ -106,7 +106,7 @@ namespace DLM.Inference
             resolver.removeDuplicates();
             bool succes = resolver.resolve();
 
-            return new InferenceResult<T>(succes, resolver.getVariables(), resolver.constraints, resolver.steps);
+            return new InferenceResult<T>(succes, resolver.getVariables(), resolver.constraints, constraints, resolver.steps);
         }
         /// <summary>
         /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.

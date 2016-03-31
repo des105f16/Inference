@@ -12,20 +12,23 @@ namespace DLM.Inference
         private bool succes;
         private VariableLabel[] variables;
         private T[] constraints;
+        private T[] originalConstraints;
         private T[] steps;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InferenceResult"/> class.
+        /// Initializes a new instance of the <see cref="InferenceResult" /> class.
         /// </summary>
         /// <param name="succes">Indicates if the inference was successful or not.</param>
         /// <param name="variables">The collection of variables in the system.</param>
         /// <param name="constraints">The collection of constraints in the system.</param>
+        /// <param name="originalConstraints">The collection of constraints that were the input to the resolver.</param>
         /// <param name="steps">The collection of steps that were taken to resolve the system (each step represents a meet of left and right).</param>
-        public InferenceResult(bool succes, IEnumerable<VariableLabel> variables, IEnumerable<T> constraints, IEnumerable<T> steps)
+        public InferenceResult(bool succes, IEnumerable<VariableLabel> variables, IEnumerable<T> constraints, IEnumerable<T> originalConstraints, IEnumerable<T> steps)
         {
             this.succes = succes;
             this.variables = variables.ToArray();
             this.constraints = constraints.ToArray();
+            this.originalConstraints = originalConstraints.ToArray();
             this.steps = steps.ToArray();
         }
 
@@ -45,6 +48,10 @@ namespace DLM.Inference
         /// Gets the collection of constraints in the resolved system.
         /// </summary>
         public T[] Constraints => constraints;
+        /// <summary>
+        /// Gets the set of constraints that were the input to the resolver.
+        /// </summary>
+        public T[] OriginalConstraints => originalConstraints;
         /// <summary>
         /// The set of constraints that were updated when attempting to resolve the system.
         /// If <see cref="Succes"/> if <c>false</c> the last constraint in this array will be the one that caused the error.
