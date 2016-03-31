@@ -114,4 +114,32 @@ namespace DLM.Inference
             return Resolve(builder, constraints as IEnumerable<T>);
         }
     }
+
+    public static class ConstraintResolver
+    {
+        /// <summary>
+        /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
+        /// </summary>
+        /// <param name="constraints">The constraint-system that should be resolved.</param>
+        /// <returns>
+        /// A <see cref="InferenceResult"/> representing the result of the method.
+        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.
+        /// </returns>
+        public static InferenceResult Resolve(IEnumerable<Constraint> constraints)
+        {
+            return ConstraintResolver<Constraint>.Resolve((o, l, r) => new Constraint(l, r), constraints);
+        }
+        /// <summary>
+        /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
+        /// </summary>
+        /// <param name="constraints">The constraint-system that should be resolved.</param>
+        /// <returns>
+        /// A <see cref="InferenceResult"/> representing the result of the method.
+        /// <see cref="InferenceResult.Succes"/> indicates if the constraints were successfully resolved.
+        /// </returns>
+        public static InferenceResult Resolve(params Constraint[] constraints)
+        {
+            return ConstraintResolver<Constraint>.Resolve((o, l, r) => new Constraint(l, r), constraints);
+        }
+    }
 }
