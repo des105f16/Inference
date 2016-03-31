@@ -12,6 +12,7 @@ namespace DLM.Inference
         private bool succes;
         private VariableLabel[] variables;
         private T[] constraints;
+        private T[] steps;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InferenceResult"/> class.
@@ -19,11 +20,13 @@ namespace DLM.Inference
         /// <param name="succes">Indicates if the inference was successful or not.</param>
         /// <param name="variables">The collection of variables in the system.</param>
         /// <param name="constraints">The collection of constraints in the system.</param>
-        public InferenceResult(bool succes, IEnumerable<VariableLabel> variables, IEnumerable<T> constraints)
+        /// <param name="steps">The collection of steps that were taken to resolve the system (each step represents a meet of left and right).</param>
+        public InferenceResult(bool succes, IEnumerable<VariableLabel> variables, IEnumerable<T> constraints, IEnumerable<T> steps)
         {
             this.succes = succes;
             this.variables = variables.ToArray();
             this.constraints = constraints.ToArray();
+            this.steps = steps.ToArray();
         }
 
         /// <summary>
@@ -42,6 +45,11 @@ namespace DLM.Inference
         /// Gets the collection of constraints in the resolved system.
         /// </summary>
         public T[] Constraints => constraints;
+        /// <summary>
+        /// The set of constraints that were updated when attempting to resolve the system.
+        /// If <see cref="Succes"/> if <c>false</c> the last constraint in this array will be the one that caused the error.
+        /// </summary>
+        public T[] ResolveSteps => steps;
 
         /// <summary>
         /// Gets the collection of constraints in the system that could not be verified.

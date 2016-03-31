@@ -11,11 +11,13 @@ namespace DLM.Inference
     public class ConstraintResolver<T> where T : Constraint
     {
         private List<T> constraints;
+        private List<T> steps;
         private ConstraintBuilder<T> builder;
 
         private ConstraintResolver(ConstraintBuilder<T> builder, IEnumerable<T> constraints)
         {
             this.constraints = new List<T>(constraints);
+            this.steps = new List<T>();
             this.builder = builder;
         }
 
@@ -64,11 +66,17 @@ namespace DLM.Inference
                     var v = c.Left as VariableLabel;
 
                     if (v == null)
+                    {
+                        steps.Add(builder(constraints[i], constraints[i].Left.Clone(), constraints[i].Right.Clone()));
                         return false;
+                    }
+                    else
+                    {
+                        v.CurrentUpperBound -= c.Right.NoVariables;
+                        steps.Add(builder(constraints[i], constraints[i].Left.Clone(), constraints[i].Right.Clone()));
 
-                    v.CurrentUpperBound -= c.Right.NoVariables;
-
-                    i = -1;
+                        i = -1;
+                    }
                 }
             }
 
@@ -98,7 +106,7 @@ namespace DLM.Inference
             resolver.removeDuplicates();
             bool succes = resolver.resolve();
 
-            return new InferenceResult<T>(succes, resolver.getVariables(), resolver.constraints);
+            return new InferenceResult<T>(succes, resolver.getVariables(), resolver.constraints, resolver.steps);
         }
         /// <summary>
         /// Implements the label inference algorithm by setting the <see cref="VariableLabel.CurrentUpperBound"/> on all variables.
