@@ -55,7 +55,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="LabelRestrictionTests.cs" />
-    <Compile Include="LabelTests.cs" />
     <Compile Include="PolicyTests.cs" />
     <Compile Include="PrincipalTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
