@@ -11,13 +11,13 @@ namespace DLM.Inference
     public class ConstraintResolver<T> where T : Constraint
     {
         private List<T> constraints;
-        private List<T> steps;
+        private List<Step> steps;
         private ConstraintBuilder<T> builder;
 
         private ConstraintResolver(ConstraintBuilder<T> builder, IEnumerable<T> constraints)
         {
             this.constraints = new List<T>(constraints);
-            this.steps = new List<T>();
+            this.steps = new List<Step>();
             this.builder = builder;
         }
 
@@ -26,13 +26,13 @@ namespace DLM.Inference
             for (int i = 0; i < constraints.Count; i++)
                 if (constraints[i].Left is JoinLabel)
                 {
-                    var l = constraints[i].Left as JoinLabel;
-                    var r = constraints[i].Right;
-
+                    var c = constraints[i];
                     constraints.RemoveAt(i);
 
-                    constraints.Insert(i, builder(constraints[i], l.Label1, r));
-                    constraints.Insert(i, builder(constraints[i], l.Label2, r));
+                    var join = c.Left as JoinLabel;
+
+                    constraints.Insert(i, builder(c, join.Label1, c.Right));
+                    constraints.Insert(i, builder(c, join.Label2, c.Right));
 
                     i--;
                 }
@@ -67,13 +67,13 @@ namespace DLM.Inference
 
                     if (v == null)
                     {
-                        steps.Add(builder(constraints[i], constraints[i].Left.Clone(), constraints[i].Right.Clone()));
+                        steps.Add(new Step(constraints[i], false));
                         return false;
                     }
                     else
                     {
+                        steps.Add(new Step(constraints[i], true));
                         v.CurrentUpperBound -= c.Right.NoVariables;
-                        steps.Add(builder(constraints[i], constraints[i].Left.Clone(), constraints[i].Right.Clone()));
 
                         i = -1;
                     }
@@ -120,6 +120,60 @@ namespace DLM.Inference
         public static InferenceResult<T> Resolve(ConstraintBuilder<T> builder, params T[] constraints)
         {
             return Resolve(builder, constraints as IEnumerable<T>);
+        }
+
+        /// <summary>
+        /// Represents a step in the inference algorithm.
+        /// </summary>
+        public class Step
+        {
+            private readonly T constraint;
+            private readonly Label left, right, result;
+
+            private readonly bool success;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Step" /> class.
+            /// </summary>
+            /// <param name="constraint">The constraint that should be updated.</param>
+            /// <param name="success">A boolean value indicating if the step was succesfull.</param>
+            public Step(T constraint, bool success)
+            {
+                this.constraint = constraint;
+
+                this.left = constraint.Left.Clone();
+                this.right = constraint.Right.Clone();
+
+                this.success = success;
+                if (this.success)
+                    this.result = this.left.NoVariables - this.right.NoVariables;
+                else
+                    this.result = null;
+            }
+
+            /// <summary>
+            /// Gets the constraint that should be updated by this step.
+            /// </summary>
+            public T Constraint => constraint;
+
+            /// <summary>
+            /// Gets the left side of the constraint.
+            /// </summary>
+            public Label Left => left;
+            /// <summary>
+            /// Gets the right side of the constraint.
+            /// </summary>
+            public Label Right => right;
+
+            /// <summary>
+            /// Gets a value indicating whether this <see cref="Step"/> succesfully updated the left side of the constraint.
+            /// If <c>true</c> the updated value can be read from <see cref="Result"/>.
+            /// </summary>
+            public bool Success => success;
+            /// <summary>
+            /// Gets the updated label for the left side of the constraint, if <see cref="Success"/> is <c>true</c>; otherwise <c>null</c>.
+            /// </summary>
+            public Label Result => result;
         }
     }
 
