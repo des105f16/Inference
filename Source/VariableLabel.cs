@@ -73,6 +73,6 @@ namespace DLM.Inference
         /// <returns>
         /// A <see cref="string"/> that represents this <see cref="VariableLabel"/>.
         /// </returns>
-        public override string ToString() => $"[{name}]";
+        public override string ToString() => name;
     }
 }

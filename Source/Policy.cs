@@ -63,9 +63,9 @@ namespace DLM.Inference
         public override string ToString()
         {
             if (readers.Length == 0)
-                return owner + ": \u2205";
+                return owner + "->\u2205";
             else
-                return owner + ": " + readers.JoinString(", ");
+                return owner + "->" + readers.JoinString(", ");
         }
     }
 }

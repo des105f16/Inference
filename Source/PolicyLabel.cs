@@ -160,7 +160,7 @@ namespace DLM.Inference
             if (policies.Length == 0)
                 return "\u22a5";
             else
-                return "{" + policies.JoinString("; ") + "}";
+                return "{ " + policies.JoinString("; ") + " }";
         }
     }
 }
