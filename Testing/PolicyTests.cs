@@ -10,7 +10,7 @@ namespace DLM.Inference.Tests
     [TestFixture()]
     public class PolicyTests
     {
-        private PolicyLabel l1, l2, l3, l4, l5, l6, l7, l8;
+        private PolicyLabel l1, l2, l3, l4, l5, l6, l7, l8, l9, l10;
 
         private Principal o1, o2, o3, r1, r2, r3;
 
@@ -74,6 +74,10 @@ namespace DLM.Inference.Tests
                 new Policy(o2, r2),
                 new Policy(o3, r2)
             });
+
+            l9 = new PolicyLabel(new Policy(o1, r2));
+
+            l10 = new PolicyLabel(new Policy(o1));
         }
 
         [Test()]
@@ -87,6 +91,8 @@ namespace DLM.Inference.Tests
             CollectionAssert.AreEquivalent(l6.EffectiveReaders, new Principal[0]);
             CollectionAssert.AreEquivalent(l7.EffectiveReaders, new Principal[0]);
             CollectionAssert.AreEquivalent(l8.EffectiveReaders, new Principal[] { r2 });
+            CollectionAssert.AreEquivalent(l9.EffectiveReaders, new Principal[] { r2 });
+            CollectionAssert.AreEquivalent(l10.EffectiveReaders, new Principal[0]);
         }
     }
 }
