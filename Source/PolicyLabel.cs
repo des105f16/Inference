@@ -150,6 +150,24 @@ namespace DLM.Inference
         }
 
         /// <summary>
+        /// Gets the effective reader set for this policy, i.e. the intersection of all reader sets.
+        /// </summary>
+        /// <returns>A <see cref="IEnumerable{Principal}" /> containing the principals of the effective reader set.</returns>
+        public IEnumerable<Principal> EffectiveReaders
+        {
+            get
+            {
+                IEnumerable<Principal> readers = policies[0].Readers;
+
+                var size = policies.Count();
+                for (int i = 1; i < size; i++)
+                    readers = readers.Intersect(policies[i].Readers);
+
+                return readers.ToArray();
+            }
+        }
+
+        /// <summary>
         /// Returns a <see cref="string" /> that represents this <see cref="PolicyLabel"/>.
         /// </summary>
         /// <returns>

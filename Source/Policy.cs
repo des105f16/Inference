@@ -45,6 +45,11 @@ namespace DLM.Inference
         public Principal Owner => owner;
 
         /// <summary>
+        /// Gets the reader set for this policy.
+        /// </summary>
+        public Principal[] Readers => readers.ToArray();
+
+        /// <summary>
         /// Gets the number of readers associated with this policy/owner.
         /// </summary>
         public int ReaderCount => readers.Length;
