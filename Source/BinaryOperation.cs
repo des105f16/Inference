@@ -65,11 +65,20 @@ namespace DLM.Inference
                 var t2 = l2.GetType();
 
                 if (t0 == t1 && t0 == t2)
-                    return handles[i].OpBoth(l1, l2);
+                {
+                    if (handles[i].OpBoth != null)
+                        return handles[i].OpBoth(l1, l2);
+                }
                 else if (t0 == t1)
-                    return handles[i].OpLeft(l1, l2);
+                {
+                    if (handles[i].OpBoth != null)
+                        return handles[i].OpLeft(l1, l2);
+                }
                 else if (t0 == t2)
-                    return handles[i].OpRight(l1, l2);
+                {
+                    if (handles[i].OpBoth != null)
+                        return handles[i].OpRight(l1, l2);
+                }
             }
 
             return Default(l1, l2);
