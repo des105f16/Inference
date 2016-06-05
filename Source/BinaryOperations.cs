@@ -82,7 +82,8 @@ namespace DLM.Inference
                 Add<UpperBoundLabel>((x, y) => y, (x, y) => x);
                 Add<PolicyLabel>(null, (x, y) => x - y);
                 Add<MeetLabel>(
-                    (x, y) => contains(x, y) ? x : new MeetLabel(x, y),
+                    (x, y) => contains(x, y) ? x : insertPolicy(x, y),
+                    (x, y) => contains(y, x) ? x : insertPolicy(x, y),
                     (x, y) => Apply(Apply(x, y.Label1), y.Label2));
             }
 
@@ -100,6 +101,41 @@ namespace DLM.Inference
                     return true;
 
                 return false;
+            }
+            private Label insertPolicy(MeetLabel meet, Label lbl)
+            {
+                if (lbl is PolicyLabel)
+                    return insertPolicy(meet, lbl as PolicyLabel) ?? new MeetLabel(meet, lbl);
+                else
+                    return new MeetLabel(meet, lbl);
+            }
+            private Label insertPolicy(Label lbl, MeetLabel meet)
+            {
+                if (lbl is PolicyLabel)
+                    return insertPolicy(meet, lbl as PolicyLabel) ?? new MeetLabel(lbl, meet);
+                else
+                    return new MeetLabel(lbl, meet);
+            }
+            private Label insertPolicy(MeetLabel meet, PolicyLabel lbl)
+            {
+                if (meet.Label2 is PolicyLabel)
+                    return new MeetLabel(meet.Label1, meet.Label2 as PolicyLabel + lbl);
+                if (meet.Label1 is PolicyLabel)
+                    return new MeetLabel(meet.Label1 as PolicyLabel + lbl, meet.Label2);
+
+                Label l1 = null, l2 = null;
+
+                if (meet.Label2 is MeetLabel)
+                    l2 = insertPolicy(meet.Label2 as MeetLabel, lbl);
+                if (l2 == null && meet.Label1 is MeetLabel)
+                    l1 = insertPolicy(meet.Label1 as MeetLabel, lbl);
+
+                if (l1 == null && l2 == null)
+                    return null;
+                else if (l1 == null)
+                    return new MeetLabel(meet.Label1, l2);
+                else
+                    return new MeetLabel(l1, meet.Label2);
             }
 
             protected override Label Default(Label l1, Label l2)
