@@ -31,7 +31,15 @@ namespace DLM.Inference
 
         public override int GetHashCode() => name.GetHashCode();
 
-        public override bool Equals(object obj) => obj is Principal ? Equals(obj as Principal) : false;
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(obj, null))
+                return false;
+            else if (obj is Principal)
+                return Equals(obj as Principal);
+            else
+                return false;
+        }
         public bool Equals(Principal other) => ReferenceEquals(this, other);
 
         /// <summary>
