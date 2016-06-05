@@ -71,12 +71,12 @@ namespace DLM.Inference
                 }
                 else if (t0 == t1)
                 {
-                    if (handles[i].OpBoth != null)
+                    if (handles[i].OpLeft != null)
                         return handles[i].OpLeft(l1, l2);
                 }
                 else if (t0 == t2)
                 {
-                    if (handles[i].OpBoth != null)
+                    if (handles[i].OpRight != null)
                         return handles[i].OpRight(l1, l2);
                 }
             }
