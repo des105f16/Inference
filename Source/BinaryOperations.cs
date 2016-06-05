@@ -13,7 +13,8 @@ namespace DLM.Inference
                 Add<UpperBoundLabel>((x, y) => x, (x, y) => x);
                 Add<PolicyLabel>(null, (x, y) => x + y);
                 Add<JoinLabel>(
-                    (x, y) => contains(x, y) ? x : new JoinLabel(x, y),
+                    (x, y) => contains(x, y) ? x : insertPolicy(x, y),
+                    (x, y) => contains(y, x) ? x : insertPolicy(x, y),
                     (x, y) => Apply(Apply(x, y.Label1), y.Label2));
             }
 
@@ -31,6 +32,41 @@ namespace DLM.Inference
                     return true;
 
                 return false;
+            }
+            private Label insertPolicy(JoinLabel join, Label lbl)
+            {
+                if (lbl is PolicyLabel)
+                    return insertPolicy(join, lbl as PolicyLabel) ?? new JoinLabel(join, lbl);
+                else
+                    return new JoinLabel(join, lbl);
+            }
+            private Label insertPolicy(Label lbl, JoinLabel join)
+            {
+                if (lbl is PolicyLabel)
+                    return insertPolicy(join, lbl as PolicyLabel) ?? new JoinLabel(lbl, join);
+                else
+                    return new JoinLabel(lbl, join);
+            }
+            private Label insertPolicy(JoinLabel join, PolicyLabel lbl)
+            {
+                if (join.Label2 is PolicyLabel)
+                    return new JoinLabel(join.Label1, join.Label2 as PolicyLabel + lbl);
+                if (join.Label1 is PolicyLabel)
+                    return new JoinLabel(join.Label1 as PolicyLabel + lbl, join.Label2);
+
+                Label l1 = null, l2 = null;
+
+                if (join.Label2 is JoinLabel)
+                    l2 = insertPolicy(join.Label2 as JoinLabel, lbl);
+                if (l2 == null && join.Label1 is JoinLabel)
+                    l1 = insertPolicy(join.Label1 as JoinLabel, lbl);
+
+                if (l1 == null && l2 == null)
+                    return null;
+                else if (l1 == null)
+                    return new JoinLabel(join.Label1, l2);
+                else
+                    return new JoinLabel(l1, join.Label2);
             }
 
             protected override Label Default(Label l1, Label l2)
