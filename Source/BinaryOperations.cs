@@ -41,6 +41,10 @@ namespace DLM.Inference
                     (x, y) => Apply(x.Label1, y) && Apply(x.Label2, y),
                     (x, y) => Apply(x, y.Label1) || Apply(x, y.Label2),
                     (x, y) => Apply(x.Label1, y) && Apply(x.Label2, y));
+                Add<MeetLabel>(
+                    (x, y) => Apply(x.Label1, y) || Apply(x.Label2, y),
+                    (x, y) => Apply(x, y.Label1) && Apply(x, y.Label2),
+                    (x, y) => Apply(x.Label1, y) && Apply(x.Label2, y));
                 Add<LowerBoundLabel>((x, y) => true, (x, y) => false, (x, y) => true);
                 Add<UpperBoundLabel>((x, y) => false, (x, y) => true, (x, y) => true);
                 Add<ConstantLabel>((x, y) => false, (x, y) => false, (x, y) => x.Equals(y));
