@@ -12,6 +12,25 @@ namespace DLM.Inference
                 Add<LowerBoundLabel>((x, y) => y, (x, y) => x);
                 Add<UpperBoundLabel>((x, y) => x, (x, y) => x);
                 Add<PolicyLabel>(null, (x, y) => x + y);
+                Add<JoinLabel>(
+                    (x, y) => contains(x, y) ? x : new JoinLabel(x, y),
+                    (x, y) => Apply(Apply(x, y.Label1), y.Label2));
+            }
+
+            private bool contains(JoinLabel join, Label lbl)
+            {
+                if (join == null)
+                    return false;
+
+                if (join.Label1.Equals(lbl))
+                    return true;
+                if (join.Label2.Equals(lbl))
+                    return true;
+
+                if (contains(join.Label1 as JoinLabel, lbl) || contains(join.Label2 as JoinLabel, lbl))
+                    return true;
+
+                return false;
             }
 
             protected override Label Default(Label l1, Label l2)
@@ -26,6 +45,25 @@ namespace DLM.Inference
                 Add<LowerBoundLabel>((x, y) => x, (x, y) => x);
                 Add<UpperBoundLabel>((x, y) => y, (x, y) => x);
                 Add<PolicyLabel>(null, (x, y) => x - y);
+                Add<MeetLabel>(
+                    (x, y) => contains(x, y) ? x : new MeetLabel(x, y),
+                    (x, y) => Apply(Apply(x, y.Label1), y.Label2));
+            }
+
+            private bool contains(MeetLabel meet, Label lbl)
+            {
+                if (meet == null)
+                    return false;
+
+                if (meet.Label1.Equals(lbl))
+                    return true;
+                if (meet.Label2.Equals(lbl))
+                    return true;
+
+                if (contains(meet.Label1 as MeetLabel, lbl) || contains(meet.Label2 as MeetLabel, lbl))
+                    return true;
+
+                return false;
             }
 
             protected override Label Default(Label l1, Label l2)
