@@ -9,8 +9,8 @@ namespace DLM.Inference
         {
             public Join()
             {
-                Add<LowerBoundLabel>((x, y) => x, (x, y) => x);
-                Add<UpperBoundLabel>((x, y) => y, (x, y) => x);
+                Add<LowerBoundLabel>((x, y) => y, (x, y) => x);
+                Add<UpperBoundLabel>((x, y) => x, (x, y) => x);
                 Add<PolicyLabel>(null, (x, y) => x + y);
             }
 
@@ -23,8 +23,8 @@ namespace DLM.Inference
         {
             public Meet()
             {
-                Add<LowerBoundLabel>((x, y) => y, (x, y) => x);
-                Add<UpperBoundLabel>((x, y) => x, (x, y) => x);
+                Add<LowerBoundLabel>((x, y) => x, (x, y) => x);
+                Add<UpperBoundLabel>((x, y) => y, (x, y) => x);
                 Add<PolicyLabel>(null, (x, y) => x - y);
             }
 
