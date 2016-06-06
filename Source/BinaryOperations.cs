@@ -71,7 +71,10 @@ namespace DLM.Inference
 
             protected override Label Default(Label l1, Label l2)
             {
-                return new JoinLabel(l1, l2);
+                if (l1.Equals(l2))
+                    return l1;
+                else
+                    return new JoinLabel(l1, l2);
             }
         }
         public class Meet : BinaryOperation<Label>
@@ -140,7 +143,10 @@ namespace DLM.Inference
 
             protected override Label Default(Label l1, Label l2)
             {
-                return new MeetLabel(l1, l2);
+                if (l1.Equals(l2))
+                    return l1;
+                else
+                    return new MeetLabel(l1, l2);
             }
         }
         public class NoMoreRestrictive : BinaryOperation<bool>
